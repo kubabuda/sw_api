@@ -1,19 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
+using StarWars.BusinessLogic.Models;
+using System.Collections.Generic;
 
 namespace StarWars.Api.Controllers
 {
-    public class Character
-    {
-        public string name { get; set; }
-		public IEnumerable<string> episodes { get; set; }
-		public IEnumerable<string> friends { get; set; }
-		public string? planet { get; set; }
-    }
-
     [ApiController]
     [Route("[controller]")]
     public class CharactersController : ControllerBase
