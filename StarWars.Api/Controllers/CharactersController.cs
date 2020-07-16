@@ -23,46 +23,46 @@ namespace StarWars.Api.Controllers
 			{
 				new Character
 				{
-					name = "Luke Skywalker",
-					episodes = new[] { "NEWHOPE", "EMPIRE", "JEDI" },
-					friends = new[] { "Han Solo", "Leia Organa", "C-3PO", "R2-D2" }
+					Name = "Luke Skywalker",
+					Episodes = new[] { "NEWHOPE", "EMPIRE", "JEDI" },
+					Friends = new[] { "Han Solo", "Leia Organa", "C-3PO", "R2-D2" }
 				},
 				new Character
 				{
-					name = "Darth Vader",
-					episodes = new[] { "NEWHOPE", "EMPIRE", "JEDI" },
-					friends = new[] { "Wilhuff Tarkin" }
+					Name = "Darth Vader",
+					Episodes = new[] { "NEWHOPE", "EMPIRE", "JEDI" },
+					Friends = new[] { "Wilhuff Tarkin" }
 				},
 				new Character
 				{
-					name = "Han Solo",
-					episodes = new[] { "NEWHOPE", "EMPIRE", "JEDI" },
-					friends = new[] { "Luke Skywalker", "Leia Organa", "R2-D2" }
+					Name = "Han Solo",
+					Episodes = new[] { "NEWHOPE", "EMPIRE", "JEDI" },
+					Friends = new[] { "Luke Skywalker", "Leia Organa", "R2-D2" }
 				},
 				new Character
 				{
-					name = "Leia Organa",
-					episodes = new[] { "NEWHOPE", "EMPIRE", "JEDI" },
-					friends = new[] { "Luke Skywalker", "Han Solo", "C-3PO", "R2-D2" },
-					planet = "Alderaan"
+					Name = "Leia Organa",
+					Episodes = new[] { "NEWHOPE", "EMPIRE", "JEDI" },
+					Friends = new[] { "Luke Skywalker", "Han Solo", "C-3PO", "R2-D2" },
+					Planet = "Alderaan"
 				},
 				new Character
 				{
-					name = "Wilhuff Tarkin",
-					episodes = new[] { "NEWHOPE" },
-					friends = new[] { "Darth Vader" }
+					Name = "Wilhuff Tarkin",
+					Episodes = new[] { "NEWHOPE" },
+					Friends = new[] { "Darth Vader" }
 				},
 				new Character
 				{
-					name = "C-3PO",
-					episodes = new[] { "NEWHOPE", "EMPIRE", "JEDI" },
-					friends = new[] { "Luke Skywalker", "Han Solo", "Leia Organa", "R2-D2" }
+					Name = "C-3PO",
+					Episodes = new[] { "NEWHOPE", "EMPIRE", "JEDI" },
+					Friends = new[] { "Luke Skywalker", "Han Solo", "Leia Organa", "R2-D2" }
 				},
 				new Character
 				{
-					name = "R2-D2",
-					episodes = new[] { "NEWHOPE", "EMPIRE", "JEDI" },
-					friends = new[] { "Luke Skywalker", "Han Solo", "Leia Organa" }
+					Name = "R2-D2",
+					Episodes = new[] { "NEWHOPE", "EMPIRE", "JEDI" },
+					Friends = new[] { "Luke Skywalker", "Han Solo", "Leia Organa" }
 				}
 			};
 
