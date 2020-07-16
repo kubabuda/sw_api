@@ -54,3 +54,21 @@ c) pagination
 	]
 ```
 
+## Design remarks
+
+### Hexagonal architecture
+
+Application is using hexagonal architecture. Business logic by design has no external dependencies. 
+Keep it that way to prevent pollution of bussines logic with models independent from it. 
+If functions provided by external libraries (like DB access) are needed: 
+- create interface of what is needed in BusinessLogic 
+- implement interface in respective project 
+- connect these two in dependecny injection bootstrapper in API configuration
+
+### Authorization
+
+For now no authorization on this API is required for clients. This is obviously necessary to be added after demo.
+
+### TODO list
+
+- select authorization mechanizm, preferably OAuth2 identity SaaS like Auth0
