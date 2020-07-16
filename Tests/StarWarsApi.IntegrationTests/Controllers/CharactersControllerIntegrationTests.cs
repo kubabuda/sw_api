@@ -4,6 +4,7 @@ using StarWars.Api;
 using StarWars.BusinessLogic.Models;
 using StarWarsApi.IntegrationTests.Infrastructure;
 using System.Collections.Generic;
+using System.Linq;
 using System.Net.Http;
 using System.Threading.Tasks;
 using Xunit;
@@ -19,23 +20,19 @@ namespace StarWarsApi.IntegrationTests.Controllers
             _client = factory.CreateClient();
         }
 
-
         [Fact]
-        public void Test_shouldPass()
+        public async Task GetCharacters_shouldReturnCharactersList()
         {
-            (2 + 2).Should().Be(4);
-        }
+            // Arrange - handled by application factory
 
-
-        [Fact]
-        public async Task Test_shouldFail()
-        {
             // Act
-            var httpResponse = await _client.GetAsync($@"/repositories");
+            var httpResponse = await _client.GetAsync($@"/characters");
 
             // Assert
             httpResponse.EnsureSuccessStatusCode();
             var response = await UnpackResponse<IEnumerable<Character>>(httpResponse);
+            response.First().Name.Should().Be("Luke Skywalker");
+            response.Count().Should().Be(7);
         }
 
         // TODO create base StarWarsApiIntegrationTest
