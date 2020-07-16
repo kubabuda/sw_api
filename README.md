@@ -71,4 +71,5 @@ For now no authorization on this API is required for clients. This is obviously 
 
 ### TODO list
 
+- setup CI/CD for collaboration with Travis free tier. Setup build status on readme page
 - select authorization mechanizm, preferably OAuth2 identity SaaS like Auth0
