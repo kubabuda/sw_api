@@ -29,7 +29,7 @@ namespace StarWars.BusinessLogic.Services
 
         public void CreateCharacter(Character newCharacter)
         {
-            throw new NotImplementedException();
+            _repository.Create(newCharacter);
         }
     }
 }
