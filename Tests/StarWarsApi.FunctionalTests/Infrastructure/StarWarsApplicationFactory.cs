@@ -2,7 +2,7 @@
 using Microsoft.AspNetCore.Mvc.Testing;
 using StarWars.Api;
 
-namespace StarWarsApi.IntegrationTests.Infrastructure
+namespace StarWarsApi.FunctionalTests.Infrastructure
 {
     public class StarWarsApplicationFactory<TStartup> : WebApplicationFactory<Startup>
     {

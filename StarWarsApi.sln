@@ -19,9 +19,11 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "StarWars.DataAccess", "Star
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{ABBE7434-F595-4DA3-9894-5BA381D134C0}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "StarWarsApi.IntegrationTests", "Tests\StarWarsApi.IntegrationTests\StarWarsApi.IntegrationTests.csproj", "{83B4D5D9-12F9-4E7D-BB31-A2A28257AA61}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StarWars.BusinessLogic.UnitTests", "Tests\StarWars.BusinessLogic.UnitTests\StarWars.BusinessLogic.UnitTests.csproj", "{75CCF1BF-AE82-4D0B-B0C6-EC1062AED8DF}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "StarWarsApi.FunctionalTests", "Tests\StarWarsApi.FunctionalTests\StarWarsApi.FunctionalTests.csproj", "{7CE668C4-63B6-4ACF-BFD0-F3948E5DF5C0}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StarWarsApi.IntegrationTests", "Tests\StarWarsApi.IntegrationTests\StarWarsApi.IntegrationTests.csproj", "{10202455-E641-485C-9D2C-8AD4FBCE9B53}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -41,21 +43,26 @@ Global
 		{8526A496-BF35-4CAE-900B-C568BBB46F31}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{8526A496-BF35-4CAE-900B-C568BBB46F31}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{8526A496-BF35-4CAE-900B-C568BBB46F31}.Release|Any CPU.Build.0 = Release|Any CPU
-		{83B4D5D9-12F9-4E7D-BB31-A2A28257AA61}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{83B4D5D9-12F9-4E7D-BB31-A2A28257AA61}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{83B4D5D9-12F9-4E7D-BB31-A2A28257AA61}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{83B4D5D9-12F9-4E7D-BB31-A2A28257AA61}.Release|Any CPU.Build.0 = Release|Any CPU
 		{75CCF1BF-AE82-4D0B-B0C6-EC1062AED8DF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{75CCF1BF-AE82-4D0B-B0C6-EC1062AED8DF}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{75CCF1BF-AE82-4D0B-B0C6-EC1062AED8DF}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{75CCF1BF-AE82-4D0B-B0C6-EC1062AED8DF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7CE668C4-63B6-4ACF-BFD0-F3948E5DF5C0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7CE668C4-63B6-4ACF-BFD0-F3948E5DF5C0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7CE668C4-63B6-4ACF-BFD0-F3948E5DF5C0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7CE668C4-63B6-4ACF-BFD0-F3948E5DF5C0}.Release|Any CPU.Build.0 = Release|Any CPU
+		{10202455-E641-485C-9D2C-8AD4FBCE9B53}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{10202455-E641-485C-9D2C-8AD4FBCE9B53}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{10202455-E641-485C-9D2C-8AD4FBCE9B53}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{10202455-E641-485C-9D2C-8AD4FBCE9B53}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
-		{83B4D5D9-12F9-4E7D-BB31-A2A28257AA61} = {ABBE7434-F595-4DA3-9894-5BA381D134C0}
 		{75CCF1BF-AE82-4D0B-B0C6-EC1062AED8DF} = {ABBE7434-F595-4DA3-9894-5BA381D134C0}
+		{7CE668C4-63B6-4ACF-BFD0-F3948E5DF5C0} = {ABBE7434-F595-4DA3-9894-5BA381D134C0}
+		{10202455-E641-485C-9D2C-8AD4FBCE9B53} = {ABBE7434-F595-4DA3-9894-5BA381D134C0}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {DB00F5A6-081F-4818-9D50-522B59082C78}

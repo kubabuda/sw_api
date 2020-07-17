@@ -68,7 +68,7 @@ If functions provided by external libraries (like DB access) are needed:
 - implement interface in respective project 
 - connect these two in dependency injection bootstrapper in API configuration
 
-TBH for CRUD demo it is overkill and repository directly in controller would be fine, but its lifesaver for any app with longer lifecycle
+For CRUD demo repository directly in controller would suffice, but for app lasting any longer its lifesaver.
 
 ### Authorization
 
@@ -77,10 +77,8 @@ For now no authorization on this API is required for clients. This is obviously 
 
 ## TODO list
 
-- select authorization mechanizm, preferably OAuth2 identity SaaS like Auth0
-- database
+- database (SQLite)
 - DB in container
 - example unit and/or integration and/or functional tests
-- swagger support
-- pagination
 - [make Travis use Docker](https://docs.travis-ci.com/user/docker/)
+- select authorization mechanizm, preferably OAuth2 identity SaaS like Auth0

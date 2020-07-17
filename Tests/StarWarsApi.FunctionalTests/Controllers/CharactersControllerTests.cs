@@ -2,20 +2,20 @@
 using Newtonsoft.Json;
 using StarWars.Api;
 using StarWars.BusinessLogic.Models;
-using StarWarsApi.IntegrationTests.Infrastructure;
+using StarWarsApi.FunctionalTests.Infrastructure;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http;
 using System.Threading.Tasks;
 using Xunit;
 
-namespace StarWarsApi.IntegrationTests.Controllers
+namespace StarWarsApi.FunctionalTests.Controllers
 {
-    public class CharactersControllerIntegrationTests: IClassFixture<StarWarsApplicationFactory<Startup>>
+    public class CharactersControllerTests: IClassFixture<StarWarsApplicationFactory<Startup>>
     {
         private readonly HttpClient _client;
 
-        public CharactersControllerIntegrationTests(StarWarsApplicationFactory<Startup> factory)
+        public CharactersControllerTests(StarWarsApplicationFactory<Startup> factory)
         {
             _client = factory.CreateClient();
         }
