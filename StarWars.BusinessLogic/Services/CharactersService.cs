@@ -11,7 +11,7 @@ namespace StarWars.BusinessLogic.Services
 			return _characters;
         }
 
-        private static IEnumerable<Character> _characters = new List<Character>
+        private static readonly IEnumerable<Character> _characters = new List<Character>
 		{
 			new Character
 			{

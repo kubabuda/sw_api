@@ -10,7 +10,7 @@ namespace StarWars.Api.Controllers
     [Route("[controller]")]
     public class CharactersController : ControllerBase
     {
-        ICharactersService _charactersService;
+        private readonly ICharactersService _charactersService;
         private readonly ILogger<CharactersController> _logger;
 
         public CharactersController(ICharactersService charactersService,
