@@ -2,6 +2,7 @@
 using Microsoft.Extensions.Logging;
 using StarWars.BusinessLogic.Models;
 using StarWars.BusinessLogic.Services.Interfaces;
+using Swashbuckle.AspNetCore.Annotations;
 using System.Collections.Generic;
 
 namespace StarWars.Api.Controllers
@@ -21,7 +22,8 @@ namespace StarWars.Api.Controllers
         }
 
 		[HttpGet]
-		public IEnumerable<Character> Get()
+        [SwaggerResponse(200, "The list of countries", typeof(IEnumerable<Character>))]
+        public IEnumerable<Character> Get()
 		{
             var characters = _charactersService.GetCharacters();
 

@@ -7,7 +7,7 @@ namespace StarWars.Api.Configuration
     {
         public ApiConfiguration(IConfiguration configuration)
         {
-
+            // DatabasePath = configuration["DatabasePath"];
         }
     }
 }

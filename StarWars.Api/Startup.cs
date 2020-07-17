@@ -5,6 +5,8 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
 using StarWars.Api.Configuration;
+using Swashbuckle.AspNetCore.Filters;
+using System.Reflection;
 
 namespace StarWars.Api
 {
@@ -25,7 +27,10 @@ namespace StarWars.Api
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "Star Wars Characters API", Version = "v1" });
+                c.ExampleFilters();
             });
+            // register swashbuckle examples
+            services.AddSwaggerExamplesFromAssemblies(Assembly.GetEntryAssembly());
 
             services.Bootstrap(Configuration);
         }

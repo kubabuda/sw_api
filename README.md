@@ -68,6 +68,8 @@ If functions provided by external libraries (like DB access) are needed:
 - implement interface in respective project 
 - connect these two in dependency injection bootstrapper in API configuration
 
+TBH for CRUD demo it is overkill and repository directly in controller would be fine, but its lifesaver for any app with longer lifecycle
+
 ### Authorization
 
 For now no authorization on this API is required for clients. This is obviously necessary to be added after demo.
