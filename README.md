@@ -1,4 +1,4 @@
-# Star Wars API [![Build Status](https://api.travis-ci.org/kubabuda/sw_api.svg?branch=master)](https://travis-ci.org/kubabuda/sw_api)
+# Star Wars API [![Build Status](https://travis-ci.org/kubabuda/sw_api.svg?branch=master)](https://travis-ci.org/kubabuda/sw_api)
 
 
 Simple API to try out few features in NET Core, oh and for interview
@@ -81,4 +81,4 @@ For now no authorization on this API is required for clients. This is obviously 
 - example unit and/or integration and/or functional tests
 - swagger support
 - pagination
-- [make Travis use Docker](https://blog.travis-ci.com/2015-08-19-using-docker-on-travis-ci/)
+- [make Travis use Docker](https://docs.travis-ci.com/user/docker/)
