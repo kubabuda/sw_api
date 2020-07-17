@@ -48,7 +48,7 @@ namespace StarWars.BusinessLogic.UnitTests.Services
             int i = 0;
             foreach(var character in result)
             {
-                character.Name.Should().Be(names[i]);
+                character.Name.Should().Be(names[i++]);
             }
         }
 
