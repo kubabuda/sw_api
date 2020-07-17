@@ -14,7 +14,7 @@ namespace StarWars.BusinessLogic.UnitTests.Services
     public class CharactersServiceTests
     {
         private const int pageSize = 2;
-        private IEnumerable<Character> _allCharacters;
+        private List<Character> _allCharacters;
         private IStarWarsApiConfiguration _configuration;
         private ICharacterRepository _repository;
         private CharactersService _serviceUnderTest;
@@ -32,7 +32,7 @@ namespace StarWars.BusinessLogic.UnitTests.Services
             };
             _repository = Substitute.For<ICharacterRepository>();
             _repository.GetQueryable().Returns(_allCharacters.AsQueryable());
-
+            
             _serviceUnderTest = new CharactersService(_configuration, _repository);
         }
 
@@ -46,7 +46,7 @@ namespace StarWars.BusinessLogic.UnitTests.Services
 
             // Assert
             int i = 0;
-            foreach(var character in result)
+            foreach (var character in result)
             {
                 character.Name.Should().Be(names[i++]);
             }
@@ -55,13 +55,26 @@ namespace StarWars.BusinessLogic.UnitTests.Services
         [TestCase(1)]
         [TestCase(2)]
         [TestCase(3)]
-        public void GetCharacters_ShouldRetunrNotTooBigPage_GivenEveryPageNr(int pageNr)
+        public void GetCharacters_ShouldReturnNotTooBigPage_GivenEveryPageNr(int pageNr)
         {
             // Act
             var result = _serviceUnderTest.GetCharacters(pageNr);
 
             // Assert
             result.Count().Should().BeLessOrEqualTo(pageSize);
+        }
+
+        [Test]
+        public void CreateCharacter_ShouldPassCreateToRepository_GivenCharacterToCreate()
+        {
+            // Arrange
+            var newCharacter = new Character { Name = "Foo", Planet = "Bar" };
+
+            // Act
+            _serviceUnderTest.CreateCharacter(newCharacter);
+
+            // Assert
+            _repository.Received(1).Create(newCharacter);
         }
     }
 }

@@ -1,9 +1,7 @@
 ﻿using StarWars.BusinessLogic.Interfaces.Repositories;
 using StarWars.BusinessLogic.Models;
-using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 
 namespace StarWars.DataAccess.Repository
 {
@@ -16,6 +14,11 @@ namespace StarWars.DataAccess.Repository
         {
 			return s_characters.AsQueryable();
         }
+
+		public void Create(Character character)
+		{
+			s_characters.Add(character);
+		}
 
 		private static List<Character> Initialize() => new List<Character>
 		{
@@ -63,5 +66,5 @@ namespace StarWars.DataAccess.Repository
 				Friends = new[] { "Luke Skywalker", "Han Solo", "Leia Organa" }
 			}
 		};
-	}
+    }
 }
