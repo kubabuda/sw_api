@@ -1,5 +1,4 @@
-﻿
-using StarWars.BusinessLogic.Models;
+﻿using StarWars.BusinessLogic.Models;
 using System.Collections.Generic;
 
 namespace StarWars.BusinessLogic.Services.Interfaces
