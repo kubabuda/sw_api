@@ -76,5 +76,7 @@ namespace StarWars.BusinessLogic.UnitTests.Services
             // Assert
             _repository.Received(1).Create(newCharacter);
         }
+
+
     }
 }
