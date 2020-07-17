@@ -8,6 +8,9 @@ namespace StarWars.Api.Configuration
         public ApiConfiguration(IConfiguration configuration)
         {
             // DatabasePath = configuration["DatabasePath"];
+            PageSize = 5;
         }
+
+        public int PageSize { get; }
     }
 }

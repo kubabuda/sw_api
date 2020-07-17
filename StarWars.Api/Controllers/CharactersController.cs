@@ -23,9 +23,9 @@ namespace StarWars.Api.Controllers
 
 		[HttpGet]
         [SwaggerResponse(200, "The list of countries", typeof(IEnumerable<Character>))]
-        public IEnumerable<Character> Get()
+        public IEnumerable<Character> Get([FromQuery] int pageNr = 1)
 		{
-            var characters = _charactersService.GetCharacters();
+            var characters = _charactersService.GetCharacters(pageNr);
 
 			return characters;
 		}

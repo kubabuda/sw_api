@@ -1,14 +1,25 @@
-﻿using StarWars.BusinessLogic.Models;
+﻿using StarWars.BusinessLogic.Interfaces;
+using StarWars.BusinessLogic.Models;
 using StarWars.BusinessLogic.Services.Interfaces;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace StarWars.BusinessLogic.Services
 {
     public class CharactersService : ICharactersService
     {
-		public IEnumerable<Character> GetCharacters()
+		private readonly IStarWarsApiConfiguration _configuration;
+
+		public CharactersService(IStarWarsApiConfiguration configuration)
         {
-			return _characters;
+			_configuration = configuration;
+        }
+
+		public IEnumerable<Character> GetCharacters(int pageNr)
+        {
+			return _characters.AsQueryable()
+				.Skip((pageNr - 1) * _configuration.PageSize)
+				.Take(_configuration.PageSize);
         }
 
         private static readonly IEnumerable<Character> _characters = new List<Character>
