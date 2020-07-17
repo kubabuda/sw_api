@@ -1,4 +1,6 @@
-# "Star Wars"
+# Star Wars API
+
+Simple API to try out few features in NET Core, oh and for interview
 
 ## Objective
 Create "Star Wars" RESTful API service. Implement CRUD (Create, Read, Update, Delete) operations for managing 'Star Wars' characters. 
@@ -69,7 +71,8 @@ If functions provided by external libraries (like DB access) are needed:
 
 For now no authorization on this API is required for clients. This is obviously necessary to be added after demo.
 
-### TODO list
+
+## TODO list
 
 - setup CI/CD for collaboration with Travis free tier. Setup build status on readme page
 - select authorization mechanizm, preferably OAuth2 identity SaaS like Auth0
