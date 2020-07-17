@@ -1,4 +1,4 @@
-# Star Wars API [![Build Status](https://travis-ci.org/kubabuda/sw_api.svg?branch=master)](https://travis-ci.org/kubabuda/sw_api)
+# Star Wars API [![Build Status](https://api.travis-ci.org/kubabuda/sw_api.svg?branch=master&status=passed)](https://travis-ci.org/kubabuda/sw_api)
 
 
 Simple API to try out few features in NET Core, oh and for interview

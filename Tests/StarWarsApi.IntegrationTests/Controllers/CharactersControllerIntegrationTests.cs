@@ -24,6 +24,7 @@ namespace StarWarsApi.IntegrationTests.Controllers
         public async Task GetCharacters_shouldReturnCharactersList()
         {
             // Arrange - handled by application factory
+            var pageSize = 5; // as in configuration
 
             // Act
             var httpResponse = await _client.GetAsync($@"/characters");
@@ -32,7 +33,7 @@ namespace StarWarsApi.IntegrationTests.Controllers
             httpResponse.EnsureSuccessStatusCode();
             var response = await UnpackResponse<IEnumerable<Character>>(httpResponse);
             response.First().Name.Should().Be("Luke Skywalker");
-            response.Count().Should().Be(7);
+            response.Count().Should().Be(pageSize);
         }
 
         // TODO create base StarWarsApiIntegrationTest
