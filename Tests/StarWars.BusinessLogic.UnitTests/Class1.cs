@@ -8,13 +8,6 @@ namespace StarWars.BusinessLogic.UnitTests
     public class BusinessLogicUnitTests
     {
         [Test]
-        public void Test_shouldPass()
-        {
-            (2 + 2).Should().Be(4);
-        }
-
-
-        [Test]
         public void Test_shouldFail()
         {
             (2 + 2).Should().Be(5);

@@ -1,4 +1,5 @@
-# Star Wars API
+# Star Wars API [![Build Status](https://travis-ci.org/kubabuda/sw_api.svg?branch=master)](https://travis-ci.org/kubabuda/sw_api)
+
 
 Simple API to try out few features in NET Core, oh and for interview
 
@@ -65,7 +66,7 @@ Keep it that way to prevent pollution of bussines logic with models independent 
 If functions provided by external libraries (like DB access) are needed: 
 - create interface of what is needed in BusinessLogic 
 - implement interface in respective project 
-- connect these two in dependecny injection bootstrapper in API configuration
+- connect these two in dependency injection bootstrapper in API configuration
 
 ### Authorization
 
