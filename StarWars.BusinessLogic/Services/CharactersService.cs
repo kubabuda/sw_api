@@ -33,7 +33,9 @@ namespace StarWars.BusinessLogic.Services
 
         public Character GetCharacter(string name)
         {
-            throw new System.NotImplementedException();
+            return _repository.GetQueryable()
+                .Where(u => string.Equals(u.Name, name))
+                .Single();
         }
     }
 }

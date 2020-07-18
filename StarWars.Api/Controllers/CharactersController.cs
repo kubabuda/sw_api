@@ -4,6 +4,7 @@ using StarWars.BusinessLogic.Models;
 using StarWars.BusinessLogic.Services.Interfaces;
 using Swashbuckle.AspNetCore.Annotations;
 using System.Collections.Generic;
+using System.Web;
 
 namespace StarWars.Api.Controllers
 {
@@ -34,7 +35,8 @@ namespace StarWars.Api.Controllers
         [SwaggerResponse(200, "Character details", typeof(Character))]
         public Character Get([FromRoute] string name)
         {
-            var character = _charactersService.GetCharacter(name);
+            var nameDecoded = HttpUtility.UrlDecode(name);
+            var character = _charactersService.GetCharacter(nameDecoded);
 
             return character;
         }
