@@ -2,7 +2,6 @@
 using Microsoft.Data.Sqlite;
 using Microsoft.EntityFrameworkCore;
 using NUnit.Framework;
-using StarWars.BusinessLogic.Models;
 using StarWars.BusinessLogic.Services;
 using StarWars.DataAccess;
 using System;
