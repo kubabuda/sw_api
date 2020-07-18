@@ -19,6 +19,11 @@ namespace StarWars.BusinessLogic.Services
             _repository = repository;
         }
 
+        public void CreateCharacter(Character newCharacter)
+        {
+            _repository.Create(newCharacter);
+        }
+
         public IEnumerable<Character> GetCharacters(int pageNr)
         {
 			return _repository.GetQueryable()
@@ -26,9 +31,9 @@ namespace StarWars.BusinessLogic.Services
 				.Take(_configuration.PageSize);
         }
 
-        public void CreateCharacter(Character newCharacter)
+        public Character GetCharacter(string name)
         {
-            _repository.Create(newCharacter);
+            throw new System.NotImplementedException();
         }
     }
 }

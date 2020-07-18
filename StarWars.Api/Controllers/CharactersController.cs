@@ -30,6 +30,15 @@ namespace StarWars.Api.Controllers
 			return characters;
 		}
 
+        [HttpGet("{name}")]
+        [SwaggerResponse(200, "Character details", typeof(Character))]
+        public Character Get([FromRoute] string name)
+        {
+            var character = _charactersService.GetCharacter(name);
+
+            return character;
+        }
+
         [HttpPost]
         [SwaggerResponse(204, "No content", typeof(void))]
         public void Post([FromBody] Character newCharacter)

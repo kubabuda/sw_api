@@ -27,12 +27,16 @@ namespace StarWars.BusinessLogic.UnitTests.Services
 
             _allCharacters = new List<Character>
             {
-                new Character { Name = "0" }, new Character { Name = "1" }, new Character { Name = "2" },
-                new Character { Name = "3" }, new Character { Name = "4" }, new Character { Name = "5" },
+                new Character { Name = "0", Planet = "0" },
+                new Character { Name = "1", Planet = "1" },
+                new Character { Name = "2", Planet = "2" },
+                new Character { Name = "3", Planet = "3" },
+                new Character { Name = "4", Planet = "4" },
+                new Character { Name = "5", Planet = "5" },
             };
             _repository = Substitute.For<ICharacterRepository>();
             _repository.GetQueryable().Returns(_allCharacters.AsQueryable());
-            
+
             _serviceUnderTest = new CharactersService(_configuration, _repository);
         }
 
@@ -62,6 +66,19 @@ namespace StarWars.BusinessLogic.UnitTests.Services
 
             // Assert
             result.Count().Should().BeLessOrEqualTo(pageSize);
+        }
+
+        [TestCase("1")]
+        [TestCase("2")]
+        [TestCase("3")]
+        public void GetCharacter_ShouldReturnCharacter_GivenName(string name)
+        {
+            // Act
+            var result = _serviceUnderTest.GetCharacter(name);
+
+            // Assert
+            result.Name.Should().Be(name);
+            result.Planet.Should().Be(name);
         }
 
         [Test]
