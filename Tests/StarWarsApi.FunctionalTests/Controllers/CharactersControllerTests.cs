@@ -15,12 +15,12 @@ namespace StarWarsApi.FunctionalTests.Controllers
     public class CharactersControllerTests: ABaseFunctionalTest, IClassFixture<StarWarsApplicationFactory<Startup>>
     {
         private readonly HttpClient _client;
-        private CharacterRepository repo;
+        private readonly CharacterRepository _repo;
 
         public CharactersControllerTests(StarWarsApplicationFactory<Startup> factory)
         {
             _client = factory.CreateClient();
-            repo = new CharacterRepository();
+            _repo = new CharacterRepository();
         }
 
         [Fact]
@@ -79,7 +79,7 @@ namespace StarWarsApi.FunctionalTests.Controllers
         public async Task PostCharater_ShouldAddNewCharacter_GivenCharacterObject()
         {
             // Arrange
-            var charactersBefore = repo.GetQueryable().Count();
+            var charactersBefore = _repo.GetQueryable().Count();
             var newCharacter = new Character
             {
                 Name = "Rey",
@@ -93,15 +93,15 @@ namespace StarWarsApi.FunctionalTests.Controllers
 
             // Assert
             httpResponse.EnsureSuccessStatusCode();
-            repo.GetQueryable().Count().Should().Be(charactersBefore + 1);
-            repo.GetQueryable().Where(r => r.Name == newCharacter.Name).Count().Should().Be(1);
+            _repo.GetQueryable().Count().Should().Be(charactersBefore + 1);
+            _repo.GetQueryable().Where(r => r.Name == newCharacter.Name).Count().Should().Be(1);
         }
 
         [Fact]
         public async Task PutCharater_ShouldUpdateCharacter_GivenNameAndCharacterObject()
         {
             // Arrange
-            var charactersBefore = repo.GetQueryable().Count();
+            var charactersBefore = _repo.GetQueryable().Count();
             var character = new Character
             {
                 Name = "Luke Skywalker",
@@ -118,7 +118,7 @@ namespace StarWarsApi.FunctionalTests.Controllers
 
             // Assert
             httpResponse.StatusCode.Should().Be(204);
-            repo.GetQueryable().Count().Should().Be(charactersBefore);
+            _repo.GetQueryable().Count().Should().Be(charactersBefore);
             var verificationResponse = await UnpackResponse<Character>(await _client.GetAsync(requestUri)); // kind of hacky solution
             verificationResponse.Name.Should().Be(character.Name);
             verificationResponse.Episodes.Should().BeEquivalentTo(character.Episodes);

@@ -6,5 +6,6 @@ namespace StarWars.BusinessLogic.Interfaces.Repositories
     {
         void Create(Character character);
         void Update(string name, Character character);
+        void Delete(string name);
     }
 }

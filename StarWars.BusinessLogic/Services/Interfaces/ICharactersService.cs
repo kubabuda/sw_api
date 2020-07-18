@@ -17,5 +17,7 @@ namespace StarWars.BusinessLogic.Services.Interfaces
         void CreateCharacter(Character newCharacter);
         
         void UpdateCharacter(string name, Character character);
+
+        void DeleteCharacter(string name);
     }
 }

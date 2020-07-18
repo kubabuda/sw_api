@@ -130,5 +130,18 @@ namespace StarWars.BusinessLogic.UnitTests.Services
             // Assert
             _repository.Received(0).Update(name, character);
         }
+
+        [Test]
+        public void DeleteCharacter_ShouldRelayToRepository_GivenKey()
+        {
+            // Arrange
+            var name = "1";
+
+            // Act
+            _serviceUnderTest.DeleteCharacter(name);
+
+            // Assert
+            _repository.Received(1).Delete(name);
+        }
     }
 }

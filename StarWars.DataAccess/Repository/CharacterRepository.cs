@@ -1,5 +1,6 @@
 ﻿using StarWars.BusinessLogic.Interfaces.Repositories;
 using StarWars.BusinessLogic.Models;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -26,6 +27,11 @@ namespace StarWars.DataAccess.Repository
 			var indexOf = s_characters.IndexOf(characterToUpdate);
 			// handle not found..
 			s_characters[indexOf] = character;
+		}
+
+		public void Delete(string name)
+		{
+			throw new NotImplementedException();
 		}
 
 		private static List<Character> Initialize() => new List<Character>
