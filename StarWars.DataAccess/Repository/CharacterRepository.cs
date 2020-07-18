@@ -31,7 +31,10 @@ namespace StarWars.DataAccess.Repository
 
 		public void Delete(string name)
 		{
-			throw new NotImplementedException();
+			var characterToUpdate = s_characters.Where(c => c.Name == name).Single();
+			var indexOf = s_characters.IndexOf(characterToUpdate);
+
+			s_characters.RemoveAt(indexOf);
 		}
 
 		private static List<Character> Initialize() => new List<Character>

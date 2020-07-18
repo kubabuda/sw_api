@@ -75,6 +75,17 @@ namespace StarWars.Api.Controllers
             }
         }
 
+        [HttpDelete("{key}")]
+        [SwaggerResponse(204, "No content", typeof(void))]
+        //[SwaggerResponse(400, "Bad request", typeof(void))]
+        public ActionResult Delete([FromRoute] string key)
+        {
+            var name = Decode(key);
+            _charactersService.DeleteCharacter(name);
+
+            return NoContent();
+        }
+
         private string Decode(string key)
         {
             return HttpUtility.UrlDecode(key);
