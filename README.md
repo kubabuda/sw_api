@@ -80,5 +80,6 @@ For now no authorization on this API is required for clients. This is obviously 
 - database (SQLite)
 - DB in container
 - example unit and/or integration and/or functional tests
+- SpecFlow for functional tests
 - [make Travis use Docker](https://docs.travis-ci.com/user/docker/)
 - select authorization mechanizm, preferably OAuth2 identity SaaS like Auth0

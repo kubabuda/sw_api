@@ -94,13 +94,27 @@ namespace StarWars.BusinessLogic.UnitTests.Services
         public void CreateCharacter_ShouldPassCreateToRepository_GivenCharacterToCreate()
         {
             // Arrange
-            var newCharacter = new Character { Name = "Foo", Planet = "Bar" };
+            var character = new Character { Name = "Foo", Planet = "Bar" };
 
             // Act
-            _serviceUnderTest.CreateCharacter(newCharacter);
+            _serviceUnderTest.CreateCharacter(character);
 
             // Assert
-            _repository.Received(1).Create(newCharacter);
+            _repository.Received(1).Create(character);
+        }
+
+        [Test]
+        public void UpdateCharacter_ShouldPassUpdateToRepository_GivenCharacterToCreateAndItsKey()
+        {
+            // Arrange
+            var character = new Character { Name = "0", Planet = "Mars" };
+            var name = "0";
+
+            // Act
+            _serviceUnderTest.UpdateCharacter(name, character);
+
+            // Assert
+            _repository.Received(1).Update(name, character);
         }
     }
 }

@@ -2,6 +2,7 @@
 using StarWars.BusinessLogic.Interfaces.Repositories;
 using StarWars.BusinessLogic.Models;
 using StarWars.BusinessLogic.Services.Interfaces;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -36,6 +37,11 @@ namespace StarWars.BusinessLogic.Services
             return _repository.GetQueryable()
                 .Where(u => string.Equals(u.Name, name))
                 .Single();
+        }
+
+        public void UpdateCharacter(string name, Character character)
+        {
+            throw new NotImplementedException();
         }
     }
 }

@@ -5,8 +5,7 @@ using System.Linq;
 
 namespace StarWars.DataAccess.Repository
 {
-
-    public class CharacterRepository : ICharacterRepository
+	public class CharacterRepository : ICharacterRepository
     {
 		private static List<Character> s_characters = Initialize();
 
@@ -18,6 +17,11 @@ namespace StarWars.DataAccess.Repository
 		public void Create(Character character)
 		{
 			s_characters.Add(character);
+		}
+
+		public void Update(string name, Character character)
+		{
+			throw new System.NotImplementedException();
 		}
 
 		private static List<Character> Initialize() => new List<Character>
