@@ -15,10 +15,12 @@ namespace StarWarsApi.FunctionalTests.Controllers
     public class CharactersControllerTests: ABaseFunctionalTest, IClassFixture<StarWarsApplicationFactory<Startup>>
     {
         private readonly HttpClient _client;
+        private CharacterRepository repo;
 
         public CharactersControllerTests(StarWarsApplicationFactory<Startup> factory)
         {
             _client = factory.CreateClient();
+            repo = new CharacterRepository();
         }
 
         [Fact]
@@ -77,7 +79,6 @@ namespace StarWarsApi.FunctionalTests.Controllers
         public async Task PostCharater_ShouldAddNewCharacter_GivenCharacterObject()
         {
             // Arrange
-            var repo = new CharacterRepository();
             var charactersBefore = repo.GetQueryable().Count();
             var newCharacter = new Character
             {
@@ -100,7 +101,6 @@ namespace StarWarsApi.FunctionalTests.Controllers
         public async Task PutCharater_ShouldUpdateCharacter_GivenNameAndCharacterObject()
         {
             // Arrange
-            var repo = new CharacterRepository();
             var charactersBefore = repo.GetQueryable().Count();
             var character = new Character
             {
@@ -122,6 +122,27 @@ namespace StarWarsApi.FunctionalTests.Controllers
             verificationResponse.Name.Should().Be(character.Name);
             verificationResponse.Episodes.Should().BeEquivalentTo(character.Episodes);
             verificationResponse.Friends.Should().BeEquivalentTo(character.Friends);
+        }
+
+        [Fact]
+        public async Task PutCharater_ShouldReturn400_GivenMismatchedNameAndCharacterObject()
+        {
+            // Arrange
+            var character = new Character
+            {
+                Name = "Luke Skywalker",
+                Episodes = new[] { "NEWHOPE", "EMPIRE", "JEDI", "FORCE_AWAKE", "LAST_JEDI", "SKYWALKER" },
+                Friends = new[] { "Luke Skywalker", "Leia Organa", "R2-D2", "Rey" }
+            };
+            var requestContent = GetJsonContent(character);
+            var requestUri = $@"/characters/{HttpUtility.UrlEncode("Han Solo")}";
+
+            // Act
+            var httpResponse = await _client.PutAsync(requestUri,
+                requestContent);
+
+            // Assert
+            httpResponse.StatusCode.Should().Be(400);
         }
     }
 }
