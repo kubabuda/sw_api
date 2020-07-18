@@ -77,9 +77,10 @@ For now no authorization on this API is required for clients. This is obviously 
 
 ## TODO list
 
-- database (SQLite)
+- database (SQLite) + ORM (EF Core)
 - DB in container
-- example unit and/or integration and/or functional tests
-- SpecFlow for functional tests
+- example integration tests
+- [SpecFlow for functional tests](https://docs.specflow.org/projects/specflow/en/latest/Installation/Installation.html)
+- [Coverlet Collector test coverage tool](https://github.com/coverlet-coverage/coverlet https://docs.microsoft.com/en-us/dotnet/core/testing/unit-testing-code-coverage?tabs=windows)
 - [make Travis use Docker](https://docs.travis-ci.com/user/docker/)
 - select authorization mechanizm, preferably OAuth2 identity SaaS like Auth0
