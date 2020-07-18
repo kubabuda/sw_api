@@ -117,6 +117,7 @@ namespace StarWarsApi.FunctionalTests.Controllers
             httpResponse.EnsureSuccessStatusCode();
 
             // Assert
+            httpResponse.StatusCode.Should().Be(204);
             repo.GetQueryable().Count().Should().Be(charactersBefore);
             var verificationResponse = await UnpackResponse<Character>(await _client.GetAsync(requestUri)); // kind of hacky solution
             verificationResponse.Name.Should().Be(character.Name);
