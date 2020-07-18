@@ -18,43 +18,45 @@ c) pagination
 ## Example data structure in JSON:
 ```javascript
 {
-	"characters": [{
-			"name": "Luke Skywalker",
-			"episodes": ["NEWHOPE", "EMPIRE", "JEDI"],
-			"friends": ["Han Solo", "Leia Organa", "C-3PO", "R2-D2"]
-		},
-		{
-			"name": "Darth Vader",
-			"episodes": ["NEWHOPE", "EMPIRE", "JEDI"],
-			"friends": ["Wilhuff Tarkin"]
-		},
-		{
-			"name": "Han Solo",
-			"episodes": ["NEWHOPE", "EMPIRE", "JEDI"],
-			"friends": ["Luke Skywalker", "Leia Organa", "R2-D2"]
-		},
-		{
-			"name": "Leia Organa",
-			"episodes": ["NEWHOPE", "EMPIRE", "JEDI"],
-			"planet": "Alderaan",
-			"friends": ["Luke Skywalker", "Han Solo", "C-3PO", "R2-D2"]
-		},
-		{
-			"name": "Wilhuff Tarkin",
-			"episodes": ["NEWHOPE"],
-			"friends": ["Darth Vader"]
-		},
-		{
-			"name": "C-3PO",
-			"episodes": ["NEWHOPE", "EMPIRE", "JEDI"],
-			"friends": ["Luke Skywalker", "Han Solo", "Leia Organa", "R2-D2"]
-		},
-		{
-			"name": "R2-D2",
-			"episodes": ["NEWHOPE", "EMPIRE", "JEDI"],
-			"friends": ["Luke Skywalker", "Han Solo", "Leia Organa"]
-		}
-	]
+"characters": [
+	{
+		"name": "Luke Skywalker",
+		"episodes": ["NEWHOPE", "EMPIRE", "JEDI"],
+		"friends": ["Han Solo", "Leia Organa", "C-3PO", "R2-D2"]
+	},
+	{
+		"name": "Darth Vader",
+		"episodes": ["NEWHOPE", "EMPIRE", "JEDI"],
+		"friends": ["Wilhuff Tarkin"]
+	},
+	{
+		"name": "Han Solo",
+		"episodes": ["NEWHOPE", "EMPIRE", "JEDI"],
+		"friends": ["Luke Skywalker", "Leia Organa", "R2-D2"]
+	},
+	{
+		"name": "Leia Organa",
+		"episodes": ["NEWHOPE", "EMPIRE", "JEDI"],
+		"planet": "Alderaan",
+		"friends": ["Luke Skywalker", "Han Solo", "C-3PO", "R2-D2"]
+	},
+	{
+		"name": "Wilhuff Tarkin",
+		"episodes": ["NEWHOPE"],
+		"friends": ["Darth Vader"]
+	},
+	{
+		"name": "C-3PO",
+		"episodes": ["NEWHOPE", "EMPIRE", "JEDI"],
+		"friends": ["Luke Skywalker", "Han Solo", "Leia Organa", "R2-D2"]
+	},
+	{
+		"name": "R2-D2",
+		"episodes": ["NEWHOPE", "EMPIRE", "JEDI"],
+		"friends": ["Luke Skywalker", "Han Solo", "Leia Organa"]
+	}
+]
+}
 ```
 
 ## Design remarks
@@ -69,6 +71,7 @@ If functions provided by external libraries (like DB access) are needed:
 - connect these two in dependency injection bootstrapper in API configuration
 
 For CRUD demo repository directly in controller would suffice, but for app lasting any longer its lifesaver.
+For now API model == domain model == DB Entity. After demo it would be better to separate these and connect using AutoMapper, for demo it seems overkill.
 
 ### Authorization
 
@@ -81,7 +84,7 @@ For now no authorization on this API is required for clients. This is obviously 
 - DB in container
 - example integration tests
 - [SpecFlow for functional tests](https://docs.specflow.org/projects/specflow/en/latest/Installation/Installation.html)
-- [Coverlet Collector test coverage tool](https://github.com/coverlet-coverage/coverlet https://docs.microsoft.com/en-us/dotnet/core/testing/unit-testing-code-coverage?tabs=windows)
+- [Coverlet Collector](https://github.com/coverlet-coverage/coverlet)[ test coverage tool](https://docs.microsoft.com/en-us/dotnet/core/testing/unit-testing-code-coverage?tabs=windows)
 - [make Travis use Docker](https://docs.travis-ci.com/user/docker/)
 ### To discuss with product owner
 - select authorization mechanizm, preferably OAuth2 identity SaaS like Auth0
