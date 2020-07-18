@@ -1,8 +1,20 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Design;
 using StarWars.DataAccess.Models;
 
 namespace StarWars.DataAccess
 {
+    public class StarWarsDbContextFactory : IDesignTimeDbContextFactory<StarWarsDbContext>
+    {
+        public StarWarsDbContext CreateDbContext(string[] args)
+        {
+            var optionsBuilder = new DbContextOptionsBuilder<StarWarsDbContext>()
+                .UseSqlite("Filename=:memory:"); // TODO use persistent
+
+            return new StarWarsDbContext(optionsBuilder.Options);
+        }
+    }
+
     public class StarWarsDbContext : DbContext
     {
 public DbSet<SwEpisode> Episodes { get; set; }
