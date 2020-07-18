@@ -21,20 +21,22 @@ namespace StarWars.DataAccess.Repository
 		}
 
 		public void Update(string name, Character character)
+        {
+            // handle not found..
+            s_characters[FindIndex(name)] = character;
+        }
+
+        public void Delete(string name)
 		{
-			// This will be bad, TODO refactor
-			var characterToUpdate = s_characters.Where(c => c.Name == character.Name).Single();
-			var indexOf = s_characters.IndexOf(characterToUpdate);
-			// handle not found..
-			s_characters[indexOf] = character;
+			s_characters.RemoveAt(FindIndex(name));
 		}
 
-		public void Delete(string name)
+		private int FindIndex(string name)
 		{
+			// TODO refactor using ORM
 			var characterToUpdate = s_characters.Where(c => c.Name == name).Single();
 			var indexOf = s_characters.IndexOf(characterToUpdate);
-
-			s_characters.RemoveAt(indexOf);
+			return indexOf;
 		}
 
 		private static List<Character> Initialize() => new List<Character>
