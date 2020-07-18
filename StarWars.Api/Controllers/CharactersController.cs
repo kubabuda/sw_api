@@ -59,10 +59,20 @@ namespace StarWars.Api.Controllers
 
         [HttpPut("{key}")]
         [SwaggerResponse(204, "No content", typeof(void))]
-        public void Put([FromRoute] string key, [FromBody] Character character)
+        [SwaggerResponse(400, "Bad request", typeof(void))]
+        public ActionResult Put([FromRoute] string key, [FromBody] Character character)
         {
             var name = Decode(key);
-            _charactersService.UpdateCharacter(name, character);
+            try
+            {
+                _charactersService.UpdateCharacter(name, character);
+
+                return NoContent();
+            }
+            catch(InvalidOperationException)
+            {
+                return BadRequest();
+            }
         }
 
         private string Decode(string key)
