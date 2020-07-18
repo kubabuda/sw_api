@@ -22,7 +22,7 @@ namespace StarWarsApi.FunctionalTests.Controllers
         }
 
         [Fact]
-        public async Task GetCharacters_shouldReturnCharactersList()
+        public async Task GetCharacters_ShouldReturnCharactersList_parameterless()
         {
             // Arrange - handled by application factory
             var pageSize = 5; // as in configuration
@@ -38,7 +38,7 @@ namespace StarWarsApi.FunctionalTests.Controllers
         }
 
         [Fact]
-        public async Task GetCharater_shouldGetCharacterByName()
+        public async Task GetCharater_ShouldGetCharacterByName_GivenValidName()
         {
             // Arrange
             var character = new Character
@@ -61,7 +61,7 @@ namespace StarWarsApi.FunctionalTests.Controllers
         }
 
         [Fact]
-        public async Task GetCharater_shouldUpdateCharacter()
+        public async Task GetCharater_ShouldReturn404_GivenInvalidName()
         {
             // Arrange
             
@@ -74,7 +74,7 @@ namespace StarWarsApi.FunctionalTests.Controllers
         }
 
         [Fact]
-        public async Task PostCharater_shouldAddNewCharacter()
+        public async Task PostCharater_ShouldAddNewCharacter_GivenCharacterObject()
         {
             // Arrange
             var repo = new CharacterRepository();
@@ -96,5 +96,27 @@ namespace StarWarsApi.FunctionalTests.Controllers
             repo.GetQueryable().Where(r => r.Name == newCharacter.Name).Count().Should().Be(1);
         }
 
+        [Fact]
+        public async Task PutCharater_ShouldUpdateCharacter_GivenNameAndCharacterObject()
+        {
+            // Arrange
+            var repo = new CharacterRepository();
+            var charactersBefore = repo.GetQueryable().Count();
+            var character = new Character
+            {
+                Name = "Luke Skywalker",
+                Episodes = new[] { "NEWHOPE", "EMPIRE", "JEDI", "FORCE_AWAKE", "LAST_JEDI", "SKYWALKER" },
+            };
+            var requestContent = GetJsonContent(character);
+
+            // Act
+            var httpResponse = await _client.PutAsync($@"/characters/{HttpUtility.UrlEncode(character.Name)}",
+                requestContent);
+
+            // Assert
+            httpResponse.EnsureSuccessStatusCode();
+            repo.GetQueryable().Count().Should().Be(charactersBefore + 1);
+            repo.GetQueryable().Where(r => r.Name == character.Name).Count().Should().Be(1);
+        }
     }
 }
