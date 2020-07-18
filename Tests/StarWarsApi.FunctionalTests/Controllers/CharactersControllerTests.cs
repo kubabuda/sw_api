@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http;
 using System.Threading.Tasks;
+using System.Web;
 using Xunit;
 
 namespace StarWarsApi.FunctionalTests.Controllers
@@ -37,7 +38,30 @@ namespace StarWarsApi.FunctionalTests.Controllers
         }
 
         [Fact]
-        public async Task CreateCharater_shouldAddNewCharacter()
+        public async Task GetCharater_shouldUpdateCharacter()
+        {
+            // Arrange
+            var repo = new CharacterRepository();
+            var character = new Character
+            {
+                Name = "Han Solo",
+                Episodes = new[] { "NEWHOPE", "EMPIRE", "JEDI" },
+                Friends = new[] { "Luke Skywalker", "Leia Organa", "R2-D2" }
+            };
+            
+            // Act
+            var httpResponse = await _client.GetAsync($@"/characters/{HttpUtility.UrlEncode(character.Name)}");
+
+            // Assert
+            httpResponse.EnsureSuccessStatusCode();
+            var response = await UnpackResponse<Character>(httpResponse);
+            response.Name.Should().Be(character.Name);
+            response.Episodes.Should().BeEquivalentTo(character.Episodes);
+            response.Friends.Should().BeEquivalentTo(character.Friends);
+        }
+
+        [Fact]
+        public async Task PostCharater_shouldAddNewCharacter()
         {
             // Arrange
             var repo = new CharacterRepository();
@@ -45,18 +69,19 @@ namespace StarWarsApi.FunctionalTests.Controllers
             var newCharacter = new Character
             {
                 Name = "Rey",
-                Episodes = new[] { "FORCE AWAKE", "LAST JEDI", "SKYWALKER" },
+                Episodes = new[] { "FORCE_AWAKE", "LAST_JEDI", "SKYWALKER" },
                 Friends = new string[] { }
             };
-            var postContent = GetJsonContent(newCharacter);
+            var requestContent = GetJsonContent(newCharacter);
 
             // Act
-            var httpResponse = await _client.PostAsync($@"/characters", postContent);
+            var httpResponse = await _client.PostAsync($@"/characters", requestContent);
 
             // Assert
             httpResponse.EnsureSuccessStatusCode();
             repo.GetQueryable().Count().Should().Be(charactersBefore + 1);
             repo.GetQueryable().Where(r => r.Name == newCharacter.Name).Count().Should().Be(1);
         }
+
     }
 }
