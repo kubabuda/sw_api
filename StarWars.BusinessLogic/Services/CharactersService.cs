@@ -55,7 +55,7 @@ namespace StarWars.BusinessLogic.Services
 
         public void DeleteCharacter(string name)
         {
-            throw new NotImplementedException();
+            _repository.Delete(name);
         }
     }
 }
