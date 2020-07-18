@@ -23,7 +23,6 @@ namespace StarWarsApi.IntegrationTests.Services
             return connection;
         }
 
-
         [Test]
         public void Pass()
         {

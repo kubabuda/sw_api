@@ -38,19 +38,19 @@ namespace StarWarsApi.FunctionalTests.Controllers
         }
 
         [Fact]
-        public async Task GetCharater_shouldUpdateCharacter()
+        public async Task GetCharater_shouldGetCharacterByName()
         {
             // Arrange
-            var repo = new CharacterRepository();
             var character = new Character
             {
                 Name = "Han Solo",
                 Episodes = new[] { "NEWHOPE", "EMPIRE", "JEDI" },
                 Friends = new[] { "Luke Skywalker", "Leia Organa", "R2-D2" }
             };
-            
+
             // Act
-            var httpResponse = await _client.GetAsync($@"/characters/{HttpUtility.UrlEncode(character.Name)}");
+            string requestUri = $@"/characters/{HttpUtility.UrlEncode(character.Name)}";
+            var httpResponse = await _client.GetAsync(requestUri);
 
             // Assert
             httpResponse.EnsureSuccessStatusCode();
@@ -58,6 +58,19 @@ namespace StarWarsApi.FunctionalTests.Controllers
             response.Name.Should().Be(character.Name);
             response.Episodes.Should().BeEquivalentTo(character.Episodes);
             response.Friends.Should().BeEquivalentTo(character.Friends);
+        }
+
+        [Fact]
+        public async Task GetCharater_shouldUpdateCharacter()
+        {
+            // Arrange
+            
+            // Act
+            string requestUri = $@"/characters/{HttpUtility.UrlEncode("Jason Bourne")}";
+            var httpResponse = await _client.GetAsync(requestUri);
+
+            // Assert
+            httpResponse.StatusCode.Should().Be(404);
         }
 
         [Fact]

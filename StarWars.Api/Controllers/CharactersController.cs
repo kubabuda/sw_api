@@ -3,6 +3,7 @@ using Microsoft.Extensions.Logging;
 using StarWars.BusinessLogic.Models;
 using StarWars.BusinessLogic.Services.Interfaces;
 using Swashbuckle.AspNetCore.Annotations;
+using System;
 using System.Collections.Generic;
 using System.Web;
 
@@ -33,12 +34,18 @@ namespace StarWars.Api.Controllers
 
         [HttpGet("{name}")]
         [SwaggerResponse(200, "Character details", typeof(Character))]
-        public Character Get([FromRoute] string name)
+        [SwaggerResponse(404, "Character not found", typeof(Character))]
+        public ActionResult Get([FromRoute] string name)
         {
             var nameDecoded = HttpUtility.UrlDecode(name);
-            var character = _charactersService.GetCharacter(nameDecoded);
-
-            return character;
+            try
+            {
+                return Ok(_charactersService.GetCharacter(nameDecoded));
+            }
+            catch (InvalidOperationException) 
+            {
+                return NotFound();
+            }
         }
 
         [HttpPost]

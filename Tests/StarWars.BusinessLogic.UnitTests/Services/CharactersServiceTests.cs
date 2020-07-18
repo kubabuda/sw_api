@@ -5,6 +5,7 @@ using StarWars.BusinessLogic.Interfaces;
 using StarWars.BusinessLogic.Interfaces.Repositories;
 using StarWars.BusinessLogic.Models;
 using StarWars.BusinessLogic.Services;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -71,7 +72,7 @@ namespace StarWars.BusinessLogic.UnitTests.Services
         [TestCase("1")]
         [TestCase("2")]
         [TestCase("3")]
-        public void GetCharacter_ShouldReturnCharacter_GivenName(string name)
+        public void GetCharacter_ShouldReturnCharacter_GivenValidName(string name)
         {
             // Act
             var result = _serviceUnderTest.GetCharacter(name);
@@ -79,6 +80,14 @@ namespace StarWars.BusinessLogic.UnitTests.Services
             // Assert
             result.Name.Should().Be(name);
             result.Planet.Should().Be(name);
+        }
+
+        [TestCase("66")]
+        public void GetCharacter_ShouldThrow_GivenUnknonwName(string name)
+        {
+            // Act
+            // Assert
+            Assert.Throws<InvalidOperationException>(() => _serviceUnderTest.GetCharacter(name));
         }
 
         [Test]
