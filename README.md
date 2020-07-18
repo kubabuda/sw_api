@@ -77,6 +77,9 @@ For now API model == domain model == DB Entity. After demo it would be better to
 
 For now no authorization on this API is required for clients. This is obviously necessary to be added after demo.
 
+### Data accORM
+
+
 
 ## TODO list
 
