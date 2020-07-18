@@ -116,5 +116,19 @@ namespace StarWars.BusinessLogic.UnitTests.Services
             // Assert
             _repository.Received(1).Update(name, character);
         }
+
+        [Test]
+        public void UpdateCharacter_ShouldThrowInvalidOperationException_GivenMismatchedCharacterToCreateAndItsKey()
+        {
+            // Arrange
+            var character = new Character { Name = "0", Planet = "Mars" };
+            var name = "1";
+
+            // Act
+            Assert.Throws<InvalidOperationException>(() => _serviceUnderTest.UpdateCharacter(name, character));
+
+            // Assert
+            _repository.Received(0).Update(name, character);
+        }
     }
 }
