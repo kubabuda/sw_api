@@ -1,5 +1,4 @@
 ﻿using FluentAssertions;
-using Newtonsoft.Json;
 using StarWars.Api;
 using StarWars.BusinessLogic.Models;
 using StarWars.DataAccess.Repository;
@@ -7,13 +6,12 @@ using StarWarsApi.FunctionalTests.Infrastructure;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http;
-using System.Text;
 using System.Threading.Tasks;
 using Xunit;
 
 namespace StarWarsApi.FunctionalTests.Controllers
 {
-    public class CharactersControllerTests: IClassFixture<StarWarsApplicationFactory<Startup>>
+    public class CharactersControllerTests: ABaseFunctionalTest, IClassFixture<StarWarsApplicationFactory<Startup>>
     {
         private readonly HttpClient _client;
 
@@ -59,20 +57,6 @@ namespace StarWarsApi.FunctionalTests.Controllers
             httpResponse.EnsureSuccessStatusCode();
             repo.GetQueryable().Count().Should().Be(charactersBefore + 1);
             repo.GetQueryable().Where(r => r.Name == newCharacter.Name).Count().Should().Be(1);
-        }
-
-        private static HttpContent GetJsonContent(Character newCharacter)
-        {
-            return new StringContent(JsonConvert.SerializeObject(newCharacter),
-                Encoding.UTF8, "application/json");
-        }
-
-        // TODO create BaseFunctionalTest
-        private static async Task<T> UnpackResponse<T>(HttpResponseMessage httpResponse)
-        {
-            var stringResponse = await httpResponse.Content.ReadAsStringAsync();
-
-            return JsonConvert.DeserializeObject<T>(stringResponse);
         }
     }
 }
