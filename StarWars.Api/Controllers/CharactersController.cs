@@ -22,12 +22,19 @@ namespace StarWars.Api.Controllers
         }
 
 		[HttpGet]
-        [SwaggerResponse(200, "The list of countries", typeof(IEnumerable<Character>))]
-        public IEnumerable<Character> Get([FromQuery] int pageNr = 1)
+        [SwaggerResponse(200, "The list of characters", typeof(IEnumerable<Character>))]
+        public IEnumerable<Character> GetAll([FromQuery] int pageNr = 1)
 		{
             var characters = _charactersService.GetCharacters(pageNr);
 
 			return characters;
 		}
+
+        [HttpPost]
+        [SwaggerResponse(204, "No content", typeof(void))]
+        public void Post([FromBody] Character newCharacter)
+        {
+            _charactersService.CreateCharacter(newCharacter);
+        }
     }
 }

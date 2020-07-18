@@ -44,10 +44,16 @@ namespace StarWarsApi.FunctionalTests.Controllers
             // Arrange
             var repo = new CharacterRepository();
             var charactersBefore = repo.GetQueryable().Count();
-            var newCharacter = new Character { Name = "Rey", Episodes = new[] { "FORCE AWAKE", "LAST JEDI", "SKYWALKER" } };
-            
+            var newCharacter = new Character
+            {
+                Name = "Rey",
+                Episodes = new[] { "FORCE AWAKE", "LAST JEDI", "SKYWALKER" },
+                Friends = new string[] { }
+            };
+            var postContent = GetJsonContent(newCharacter);
+
             // Act
-            var httpResponse = await _client.PostAsync($@"/characters", GetJsonContent(newCharacter));
+            var httpResponse = await _client.PostAsync($@"/characters", postContent);
 
             // Assert
             httpResponse.EnsureSuccessStatusCode();
@@ -57,7 +63,8 @@ namespace StarWarsApi.FunctionalTests.Controllers
 
         private static HttpContent GetJsonContent(Character newCharacter)
         {
-            return new StringContent(JsonConvert.SerializeObject(newCharacter), Encoding.UTF8, "application/json");
+            return new StringContent(JsonConvert.SerializeObject(newCharacter),
+                Encoding.UTF8, "application/json");
         }
 
         // TODO create BaseFunctionalTest
