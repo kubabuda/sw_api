@@ -41,8 +41,16 @@ namespace StarWars.BusinessLogic.Services
 
         public void UpdateCharacter(string name, Character character)
         {
-            if (!string.Equals(name, character.Name)) { throw new InvalidOperationException(); }
+            ValidateUpdate(name, character);
             _repository.Update(name, character);
+        }
+
+        private void ValidateUpdate(string name, Character character)
+        {
+            if (!string.Equals(name, character.Name)) 
+            { 
+                throw new InvalidOperationException(); 
+            }
         }
     }
 }
