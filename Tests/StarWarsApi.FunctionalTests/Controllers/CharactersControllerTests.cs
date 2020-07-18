@@ -145,5 +145,21 @@ namespace StarWarsApi.FunctionalTests.Controllers
             // Assert
             httpResponse.StatusCode.Should().Be(400);
         }
+
+        [Fact]
+        public async Task DeleteCharacter_ShouldAddNewCharacter_GivenCharacterObject()
+        {
+            // Arrange
+            var charactersBefore = _repo.GetQueryable().Count();
+            var name = "Wilhuff Tarkin";
+
+            // Act
+            var httpResponse = await _client.DeleteAsync($@"/characters/{HttpUtility.UrlEncode(name)}");
+
+            // Assert
+            httpResponse.EnsureSuccessStatusCode();
+            _repo.GetQueryable().Count().Should().Be(charactersBefore - 1);
+            _repo.GetQueryable().Where(r => r.Name == name).Count().Should().Be(0);
+        }
     }
 }

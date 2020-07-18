@@ -132,7 +132,7 @@ namespace StarWars.BusinessLogic.UnitTests.Services
         }
 
         [Test]
-        public void DeleteCharacter_ShouldRelayToRepository_GivenKey()
+        public void DeleteCharacter_ShouldRelayToRepository_GivenValidKey()
         {
             // Arrange
             var name = "1";
