@@ -12,8 +12,10 @@ namespace StarWars.BusinessLogic.Services.Interfaces
         /// <returns></returns>
         IEnumerable<Character> GetCharacters(int pageNr);
         
+        Character GetCharacter(string name);
+        
         void CreateCharacter(Character newCharacter);
         
-        Character GetCharacter(string name);
+        void UpdateCharacter(string name, Character character);
     }
 }

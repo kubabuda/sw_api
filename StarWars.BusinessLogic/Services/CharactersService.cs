@@ -41,7 +41,7 @@ namespace StarWars.BusinessLogic.Services
 
         public void UpdateCharacter(string name, Character character)
         {
-            throw new NotImplementedException();
+            _repository.Update(name, character);
         }
     }
 }

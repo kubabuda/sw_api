@@ -32,18 +32,20 @@ namespace StarWars.Api.Controllers
 			return characters;
 		}
 
-        [HttpGet("{name}")]
+        [HttpGet("{key}")]
         [SwaggerResponse(200, "Character details", typeof(Character))]
         [SwaggerResponse(404, "Character not found", typeof(Character))]
-        public ActionResult Get([FromRoute] string name)
+        public ActionResult Get([FromRoute] string key)
         {
-            var nameDecoded = HttpUtility.UrlDecode(name);
+            var name = Decode(key);
             try
             {
-                return Ok(_charactersService.GetCharacter(nameDecoded));
+                return base.Ok(_charactersService.GetCharacter(name));
             }
-            catch (InvalidOperationException) 
+            catch (InvalidOperationException)
             {
+                _logger.LogError(@$"Failed to find user '{name}'");
+
                 return NotFound();
             }
         }
@@ -53,6 +55,19 @@ namespace StarWars.Api.Controllers
         public void Post([FromBody] Character newCharacter)
         {
             _charactersService.CreateCharacter(newCharacter);
+        }
+
+        [HttpPut("{key}")]
+        [SwaggerResponse(204, "No content", typeof(void))]
+        public void Put([FromRoute] string key, [FromBody] Character character)
+        {
+            var name = Decode(key);
+            _charactersService.UpdateCharacter(name, character);
+        }
+
+        private string Decode(string key)
+        {
+            return HttpUtility.UrlDecode(key);
         }
     }
 }

@@ -12,7 +12,7 @@ namespace StarWarsApi.IntegrationTests.Services
     {
         private readonly DbConnection _connection;
 
-        CharactersService _serviceUnderTests;
+        private readonly CharactersService _serviceUnderTests;
 
         private static DbConnection CreateInMemoryDatabase()
         {

@@ -7,7 +7,7 @@ namespace StarWars.DataAccess.Repository
 {
 	public class CharacterRepository : ICharacterRepository
     {
-		private static List<Character> s_characters = Initialize();
+		private readonly static List<Character> s_characters = Initialize();
 
         public IQueryable<Character> GetQueryable()
         {
@@ -21,7 +21,11 @@ namespace StarWars.DataAccess.Repository
 
 		public void Update(string name, Character character)
 		{
-			throw new System.NotImplementedException();
+			// This will be bad, TODO refactor
+			var characterToUpdate = s_characters.Where(c => c.Name == character.Name).Single();
+			var indexOf = s_characters.IndexOf(characterToUpdate);
+			// handle not found..
+			s_characters[indexOf] = character;
 		}
 
 		private static List<Character> Initialize() => new List<Character>

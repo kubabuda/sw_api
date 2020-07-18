@@ -106,17 +106,22 @@ namespace StarWarsApi.FunctionalTests.Controllers
             {
                 Name = "Luke Skywalker",
                 Episodes = new[] { "NEWHOPE", "EMPIRE", "JEDI", "FORCE_AWAKE", "LAST_JEDI", "SKYWALKER" },
+                Friends = new[] { "Luke Skywalker", "Leia Organa", "R2-D2", "Rey" }
             };
             var requestContent = GetJsonContent(character);
+            var requestUri = $@"/characters/{HttpUtility.UrlEncode(character.Name)}";
 
             // Act
-            var httpResponse = await _client.PutAsync($@"/characters/{HttpUtility.UrlEncode(character.Name)}",
+            var httpResponse = await _client.PutAsync(requestUri,
                 requestContent);
+            httpResponse.EnsureSuccessStatusCode();
 
             // Assert
-            httpResponse.EnsureSuccessStatusCode();
-            repo.GetQueryable().Count().Should().Be(charactersBefore + 1);
-            repo.GetQueryable().Where(r => r.Name == character.Name).Count().Should().Be(1);
+            repo.GetQueryable().Count().Should().Be(charactersBefore);
+            var verificationResponse = await UnpackResponse<Character>(await _client.GetAsync(requestUri)); // kind of hacky solution
+            verificationResponse.Name.Should().Be(character.Name);
+            verificationResponse.Episodes.Should().BeEquivalentTo(character.Episodes);
+            verificationResponse.Friends.Should().BeEquivalentTo(character.Friends);
         }
     }
 }
