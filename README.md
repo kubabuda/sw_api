@@ -84,7 +84,7 @@ For now no authorization on this API is required for clients. This is obviously 
 ## TODO list
 
 - database (SQLite) + ORM (EF Core)
-- DB in container
+- [DB in container](https://www.c-sharpcorner.com/article/entity-framework-core-in-docker-container-part-ii-sqlite/)
 - example integration tests
 - [SpecFlow for functional tests](https://docs.specflow.org/projects/specflow/en/latest/Installation/Installation.html)
 - [Coverlet Collector](https://github.com/coverlet-coverage/coverlet)[ test coverage tool](https://docs.microsoft.com/en-us/dotnet/core/testing/unit-testing-code-coverage?tabs=windows)

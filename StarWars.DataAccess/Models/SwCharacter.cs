@@ -8,7 +8,8 @@ namespace StarWars.DataAccess.Models
         public string Name { get; set; }
         public string Planet { get; set; }
         
-        public IEnumerable<SwEpisode> Episodes { get; set; }
-        public IEnumerable<SwCharacter> Friends { get; set; }
+        public virtual ICollection<SwEpisodeCharacter> Episodes { get; set; }
+        public virtual ICollection<SwCharacterFriendship> Friends { get; set; }
+        public virtual ICollection<SwCharacterFriendship> FriendsOf { get; set; }
     }
 }

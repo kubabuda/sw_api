@@ -16,7 +16,8 @@ namespace StarWars.Api.Configuration
 
         public static IServiceCollection Bootstrap(this IServiceCollection services, IConfiguration configuration)
         {
-            //var appConfiguration = new ApiConfiguration(configuration);
+            var appConfiguration = new ApiConfiguration(configuration);
+
             services.AddScoped<IStarWarsApiConfiguration, ApiConfiguration>();
             // Business logic layer
             services.AddScoped<ICharactersService, CharactersService>();
