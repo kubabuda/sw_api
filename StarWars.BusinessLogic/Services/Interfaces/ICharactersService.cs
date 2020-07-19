@@ -10,13 +10,13 @@ namespace StarWars.BusinessLogic.Services.Interfaces
         /// </summary>
         /// <param name="pageNr">Nr of page in pagination. Counting like humans, not programmers: pages 1, 2, 3...</param>
         /// <returns></returns>
-        IEnumerable<Character> GetCharacters(int pageNr);
+        IEnumerable<SwCharacter> GetCharacters(int pageNr);
         
-        Character GetCharacter(string key);
+        SwCharacter GetCharacter(string key);
         
-        void CreateCharacter(Character newCharacter);
+        void CreateCharacter(SwCharacter newCharacter);
         
-        void UpdateCharacter(string key, Character character);
+        void UpdateCharacter(string key, SwCharacter character);
 
         void DeleteCharacter(string key);
     }

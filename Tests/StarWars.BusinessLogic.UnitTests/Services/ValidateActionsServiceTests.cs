@@ -18,7 +18,7 @@ namespace StarWars.BusinessLogic.UnitTests.Services
         [Test]
         public void ValidateUpdate_ReturnsTrue_WhenNameMatchesUpdatedObject()
         {
-            var character = new Character { Name = "0", Planet = "Mars" };
+            var character = new SwCharacter { Name = "0", Planet = "Mars" };
         }
 
         [Test]

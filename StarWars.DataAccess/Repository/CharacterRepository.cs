@@ -7,19 +7,25 @@ namespace StarWars.DataAccess.Repository
 {
 	public class CharacterRepository : ICharacterRepository
     {
-		private readonly static List<Character> s_characters = DefaultCharacters.Get();
+		private readonly static List<SwCharacter> s_characters = DefaultCharacters.Get();
+        private readonly StarWarsDbContext _dbContext;
 
-        public IQueryable<Character> GetQueryable()
+        public CharacterRepository(StarWarsDbContext dbContext)
+        {
+			_dbContext = dbContext;
+        }
+
+        public IQueryable<SwCharacter> GetQueryable()
         {
 			return s_characters.AsQueryable();
         }
 
-		public void Create(Character character)
+		public void Create(SwCharacter character)
 		{
 			s_characters.Add(character);
 		}
 
-		public void Update(string name, Character character)
+		public void Update(string name, SwCharacter character)
         {
             // handle not found..
             s_characters[FindIndex(name)] = character;

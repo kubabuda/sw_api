@@ -4,6 +4,6 @@ namespace StarWars.BusinessLogic.Services.Interfaces
 {
     public interface IValidateActionsService
     {
-        bool IsValidUpdate(string name, Character character);
+        bool IsValidUpdate(string name, SwCharacter character);
     }
 }

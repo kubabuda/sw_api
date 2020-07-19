@@ -2,7 +2,7 @@
 
 namespace StarWars.BusinessLogic.Models
 {
-    public class Character
+    public class SwCharacter
     {
         public string Name { get; set; }
         public IEnumerable<string> Episodes { get; set; }
@@ -12,46 +12,46 @@ namespace StarWars.BusinessLogic.Models
 
     public static class DefaultCharacters
     {
-		public static List<Character> Get() => new List<Character>
+		public static List<SwCharacter> Get() => new List<SwCharacter>
 		{
-			new Character
+			new SwCharacter
 			{
 				Name = "Luke Skywalker",
 				Episodes = new[] { "NEWHOPE", "EMPIRE", "JEDI" },
 				Friends = new[] { "Han Solo", "Leia Organa", "C-3PO", "R2-D2" }
 			},
-			new Character
+			new SwCharacter
 			{
 				Name = "Darth Vader",
 				Episodes = new[] { "NEWHOPE", "EMPIRE", "JEDI" },
 				Friends = new[] { "Wilhuff Tarkin" }
 			},
-			new Character
+			new SwCharacter
 			{
 				Name = "Han Solo",
 				Episodes = new[] { "NEWHOPE", "EMPIRE", "JEDI" },
 				Friends = new[] { "Luke Skywalker", "Leia Organa", "R2-D2" }
 			},
-			new Character
+			new SwCharacter
 			{
 				Name = "Leia Organa",
 				Episodes = new[] { "NEWHOPE", "EMPIRE", "JEDI" },
 				Friends = new[] { "Luke Skywalker", "Han Solo", "C-3PO", "R2-D2" },
 				Planet = "Alderaan"
 			},
-			new Character
+			new SwCharacter
 			{
 				Name = "Wilhuff Tarkin",
 				Episodes = new[] { "NEWHOPE" },
 				Friends = new[] { "Darth Vader" }
 			},
-			new Character
+			new SwCharacter
 			{
 				Name = "C-3PO",
 				Episodes = new[] { "NEWHOPE", "EMPIRE", "JEDI" },
 				Friends = new[] { "Luke Skywalker", "Han Solo", "Leia Organa", "R2-D2" }
 			},
-			new Character
+			new SwCharacter
 			{
 				Name = "R2-D2",
 				Episodes = new[] { "NEWHOPE", "EMPIRE", "JEDI" },

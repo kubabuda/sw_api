@@ -16,7 +16,7 @@ namespace StarWars.BusinessLogic.UnitTests.Services
     public class CharactersServiceTests
     {
         private const int pageSize = 2;
-        private List<Character> _allCharacters;
+        private List<SwCharacter> _allCharacters;
         private IStarWarsApiConfiguration _configuration;
         private ICharacterRepository _repository;
         private IValidateActionsService _validator;
@@ -29,14 +29,14 @@ namespace StarWars.BusinessLogic.UnitTests.Services
             _configuration = Substitute.For<IStarWarsApiConfiguration>();
             _configuration.PageSize.Returns(pageSize);
 
-            _allCharacters = new List<Character>
+            _allCharacters = new List<SwCharacter>
             {
-                new Character { Name = "0", Planet = "0" },
-                new Character { Name = "1", Planet = "1" },
-                new Character { Name = "2", Planet = "2" },
-                new Character { Name = "3", Planet = "3" },
-                new Character { Name = "4", Planet = "4" },
-                new Character { Name = "5", Planet = "5" },
+                new SwCharacter { Name = "0", Planet = "0" },
+                new SwCharacter { Name = "1", Planet = "1" },
+                new SwCharacter { Name = "2", Planet = "2" },
+                new SwCharacter { Name = "3", Planet = "3" },
+                new SwCharacter { Name = "4", Planet = "4" },
+                new SwCharacter { Name = "5", Planet = "5" },
             };
             _repository = Substitute.For<ICharacterRepository>();
             _repository.GetQueryable().Returns(_allCharacters.AsQueryable());
@@ -98,7 +98,7 @@ namespace StarWars.BusinessLogic.UnitTests.Services
         public void CreateCharacter_ShouldPassCreateToRepository_GivenCharacterToCreate()
         {
             // Arrange
-            var character = new Character { Name = "Foo", Planet = "Bar" };
+            var character = new SwCharacter { Name = "Foo", Planet = "Bar" };
 
             // Act
             _serviceUnderTest.CreateCharacter(character);
@@ -111,7 +111,7 @@ namespace StarWars.BusinessLogic.UnitTests.Services
         public void UpdateCharacter_ShouldPassUpdateToRepository_GivenCharacterToCreateAndItsKey()
         {
             // Arrange
-            var character = new Character { Name = "0", Planet = "Mars" };
+            var character = new SwCharacter { Name = "0", Planet = "Mars" };
             var name = "0";
             _validator.IsValidUpdate(name, character).Returns(true);
 
@@ -126,7 +126,7 @@ namespace StarWars.BusinessLogic.UnitTests.Services
         public void UpdateCharacter_ShouldThrowInvalidOperationException_GivenMismatchedCharacterToCreateAndItsKey()
         {
             // Arrange
-            var character = new Character { Name = "0", Planet = "Mars" };
+            var character = new SwCharacter { Name = "0", Planet = "Mars" };
             var name = "1";
             _validator.IsValidUpdate(name, character).Returns(false);
 

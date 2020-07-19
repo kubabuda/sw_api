@@ -24,8 +24,8 @@ namespace StarWars.Api.Controllers
         }
 
 		[HttpGet]
-        [SwaggerResponse(200, "The list of characters", typeof(IEnumerable<Character>))]
-        public IEnumerable<Character> GetAll([FromQuery] int pageNr = 1)
+        [SwaggerResponse(200, "The list of characters", typeof(IEnumerable<SwCharacter>))]
+        public IEnumerable<SwCharacter> GetAll([FromQuery] int pageNr = 1)
 		{
             var characters = _charactersService.GetCharacters(pageNr);
 
@@ -33,8 +33,8 @@ namespace StarWars.Api.Controllers
 		}
 
         [HttpGet("{key}")]
-        [SwaggerResponse(200, "Character details", typeof(Character))]
-        [SwaggerResponse(404, "Character not found", typeof(Character))]
+        [SwaggerResponse(200, "Character details", typeof(SwCharacter))]
+        [SwaggerResponse(404, "Character not found", typeof(SwCharacter))]
         public ActionResult Get([FromRoute] string key)
         {
             var name = Decode(key);
@@ -52,7 +52,7 @@ namespace StarWars.Api.Controllers
 
         [HttpPost]
         [SwaggerResponse(204, "No content", typeof(void))]
-        public void Post([FromBody] Character newCharacter)
+        public void Post([FromBody] SwCharacter newCharacter)
         {
             _charactersService.CreateCharacter(newCharacter);
         }
@@ -60,7 +60,7 @@ namespace StarWars.Api.Controllers
         [HttpPut("{key}")]
         [SwaggerResponse(204, "No content", typeof(void))]
         [SwaggerResponse(400, "Bad request", typeof(void))]
-        public ActionResult Put([FromRoute] string key, [FromBody] Character character)
+        public ActionResult Put([FromRoute] string key, [FromBody] SwCharacter character)
         {
             var name = Decode(key);
             try

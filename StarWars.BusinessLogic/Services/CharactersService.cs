@@ -14,8 +14,9 @@ namespace StarWars.BusinessLogic.Services
 		private readonly ICharacterRepository _repository;
         private readonly IValidateActionsService _validator;
 
-		public CharactersService(IStarWarsApiConfiguration configuration, 
-			ICharacterRepository repository, 
+		public CharactersService(
+            IStarWarsApiConfiguration configuration, 
+			ICharacterRepository repository,
             IValidateActionsService validator)
         {
 			_configuration = configuration;
@@ -23,32 +24,32 @@ namespace StarWars.BusinessLogic.Services
             _validator = validator;
         }
 
-        public void CreateCharacter(Character newCharacter)
+        public void CreateCharacter(SwCharacter newCharacter)
         {
             _repository.Create(newCharacter);
         }
 
-        public IEnumerable<Character> GetCharacters(int pageNr)
+        public IEnumerable<SwCharacter> GetCharacters(int pageNr)
         {
 			return _repository.GetQueryable()
 				.Skip((pageNr - 1) * _configuration.PageSize)
 				.Take(_configuration.PageSize);
         }
 
-        public Character GetCharacter(string name)
+        public SwCharacter GetCharacter(string name)
         {
             return _repository.GetQueryable()
                 .Where(u => string.Equals(u.Name, name))
                 .Single();
         }
 
-        public void UpdateCharacter(string name, Character character)
+        public void UpdateCharacter(string name, SwCharacter character)
         {
             ValidateUpdate(name, character);
             _repository.Update(name, character);
         }
 
-        private void ValidateUpdate(string name, Character character)
+        private void ValidateUpdate(string name, SwCharacter character)
         {
             if (!_validator.IsValidUpdate(name, character))
             {
