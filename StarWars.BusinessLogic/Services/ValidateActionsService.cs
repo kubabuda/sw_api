@@ -7,7 +7,7 @@ namespace StarWars.BusinessLogic.Services
     {
         public bool IsValidUpdate(string name, Character character)
         {
-            return !string.Equals(name, character.Name);
+            return string.Equals(name, character.Name);
         }
     }
 }
