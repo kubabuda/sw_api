@@ -47,10 +47,15 @@ namespace StarWars.BusinessLogic.Services
 
         private void ValidateUpdate(string name, Character character)
         {
-            if (!string.Equals(name, character.Name)) 
-            { 
-                throw new InvalidOperationException(); 
+            if (IsValidUpdate(name, character))
+            {
+                throw new InvalidOperationException();
             }
+        }
+
+        public bool IsValidUpdate(string name, Character character)
+        {
+            return !string.Equals(name, character.Name);
         }
 
         public void DeleteCharacter(string name)

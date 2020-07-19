@@ -7,7 +7,7 @@ namespace StarWarsApi.IntegrationTests.Infrastructure
     {
         public static DbConnection CreateInMemoryDatabase()
         {
-            var connection = new SqliteConnection("Filename=:memory:");
+            var connection = new SqliteConnection("Filename=:memory:"); // TODO: point to the same file that API appsettings.json[DatabasePath]
             connection.Open();
 
             return connection;

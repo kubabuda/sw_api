@@ -16,16 +16,15 @@ namespace StarWars.Api.Configuration
 
         public static IServiceCollection Bootstrap(this IServiceCollection services, IConfiguration configuration)
         {
+            // Configurations
             var appConfiguration = new ApiConfiguration(configuration);
-
             services.AddScoped<IStarWarsApiConfiguration, ApiConfiguration>();
             // Business logic layer
             services.AddScoped<ICharactersService, CharactersService>();
+            services.AddScoped<IValidateActionsService, ValidateActionsService>();
             // Data access layer
-            //var connection = new SqliteConnection("Filename=:memory:");
-            //connection.Open();
             services.AddDbContext<StarWarsDbContext>(options =>
-                options.UseSqlite("connection"));
+                options.UseSqlite(appConfiguration.DatabasePath));
             services.AddScoped<ICharacterRepository, CharacterRepository>();
 
             return services;

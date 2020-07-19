@@ -7,10 +7,11 @@ namespace StarWars.Api.Configuration
     {
         public ApiConfiguration(IConfiguration configuration)
         {
-            // DatabasePath = configuration["DatabasePath"];
+            DatabasePath = configuration["DatabasePath"];
             PageSize = int.Parse(configuration["PageSize"]);
         }
 
+        public string DatabasePath { get; }
         public int PageSize { get; }
     }
 }
