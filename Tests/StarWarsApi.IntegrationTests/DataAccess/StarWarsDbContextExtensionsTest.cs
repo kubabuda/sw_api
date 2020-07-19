@@ -1,8 +1,11 @@
-﻿using FluentAssertions;
+﻿using AutoMapper;
+using FluentAssertions;
 using Microsoft.EntityFrameworkCore;
 using NUnit.Framework;
+using StarWars.Api.Configuration;
+using StarWars.BusinessLogic.Models;
 using StarWars.DataAccess;
-using StarWarsApi.IntegrationTests.Infrastructure;
+using StarWars.DataAccess.Infrastructure;
 using System;
 using System.Data.Common;
 using System.Linq;
@@ -31,7 +34,7 @@ namespace StarWarsApi.IntegrationTests.DataAccess
             await dbContext.Database.MigrateAsync();
 
             // Act
-            await dbContext.SeedAsync();
+            dbContext.Seed();
 
             // Assert
             (await dbContext.Characters.CountAsync()).Should().Be(7);
@@ -41,6 +44,30 @@ namespace StarWarsApi.IntegrationTests.DataAccess
             luke_skywalker.Friends.Select(e => e.Friend).Select(e => e.Name)
                 .Should().BeEquivalentTo(new[] { "Han Solo", "Leia Organa", "C-3PO", "R2-D2" });
 
+        }
+
+        [Test]
+        public async Task ProjectTo_shouldGetDomainModelsQueryable_GivenEntityTable()
+        {
+            // Arrange
+            var options = new DbContextOptionsBuilder<StarWarsDbContext>()
+                .UseSqlite(_connection)
+                .Options;
+            var dbContext = new StarWarsDbContext(options);
+            await dbContext.Database.MigrateAsync();
+            dbContext.Seed();
+            await dbContext.SaveChangesAsync();
+            dbContext = new StarWarsDbContext(options); // get fresh one
+            var configuration = new MapperConfiguration(cfg => {
+                cfg.AddProfile<AutoMapping>();
+            });
+            IMapper mapper = new Mapper(configuration);
+
+            // Act
+            var result = mapper.ProjectTo<SwCharacter>(dbContext.Characters).ToList();
+
+            // Assert
+            result.Count().Should().Be(7);
         }
 
         public void Dispose()

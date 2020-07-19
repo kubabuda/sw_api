@@ -1,12 +1,11 @@
 ﻿using StarWars.DataAccess.Models;
 using System.Collections.Generic;
-using System.Threading.Tasks;
 
 namespace StarWars.DataAccess
 {
     public static class StarWarsDbContextExtensions
     {
-        public static async Task SeedAsync(this StarWarsDbContext dbContext)
+        public static void Seed(this StarWarsDbContext dbContext)
         {
             var newhope = new Episode { Id = 4, Name = "NEWHOPE" };
             var empire = new Episode { Id = 5, Name = "EMPIRE" };
@@ -131,8 +130,8 @@ namespace StarWars.DataAccess
                 new CharacterFriendship { FriendId = leia_organa.Id, FriendOfId = r2_d2.Id }
             };
 
-            await dbContext.Episodes.AddRangeAsync(newhope, empire, jedi);
-            await dbContext.Characters.AddRangeAsync(
+            dbContext.Episodes.AddRange(newhope, empire, jedi);
+            dbContext.Characters.AddRange(
                 luke_skywalker,
                 darth_vader,
                 han_solo,
@@ -140,7 +139,7 @@ namespace StarWars.DataAccess
                 wilhuff_tarkin,
                 c_3p0,
                 r2_d2);
-            await dbContext.SaveChangesAsync();
+            dbContext.SaveChanges();
         }
     }
 }

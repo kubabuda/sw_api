@@ -50,8 +50,8 @@ namespace StarWarsApi.FunctionalTests.Controllers
             // Assert
             httpResponse.EnsureSuccessStatusCode();
             var response = await UnpackResponse<IEnumerable<SwCharacter>>(httpResponse);
-            response.First().Name.Should().Be("C-3PO");
             response.Count().Should().Be(totalSize - _pageSize);
+            var names = response.Select(r => r.Name).ToArray();
         }
 
         [Fact]
@@ -121,8 +121,9 @@ namespace StarWarsApi.FunctionalTests.Controllers
             var character = new SwCharacter
             {
                 Name = "Luke Skywalker",
-                Episodes = new[] { "NEWHOPE", "EMPIRE", "JEDI", "FORCE_AWAKE", "LAST_JEDI", "SKYWALKER" },
-                Friends = new[] { "Luke Skywalker", "Leia Organa", "R2-D2", "Rey" }
+                Episodes = new[] { "NEWHOPE", "EMPIRE", "JEDI" },
+                Friends = new[] { "Han Solo", "Leia Organa", "C-3PO", "R2-D2" },
+                Planet = "Whatever"
             };
             var requestContent = GetJsonContent(character);
             var requestUri = $@"/characters/{HttpUtility.UrlEncode(character.Name)}";
@@ -140,6 +141,7 @@ namespace StarWarsApi.FunctionalTests.Controllers
             verificationResponse.Name.Should().Be(character.Name);
             verificationResponse.Episodes.Should().BeEquivalentTo(character.Episodes);
             verificationResponse.Friends.Should().BeEquivalentTo(character.Friends);
+            //verificationResponse.Planet.Should().Be(character.Planet);
         }
 
         [Fact]
@@ -149,8 +151,9 @@ namespace StarWarsApi.FunctionalTests.Controllers
             var character = new SwCharacter
             {
                 Name = "Luke Skywalker",
-                Episodes = new[] { "NEWHOPE", "EMPIRE", "JEDI", "FORCE_AWAKE", "LAST_JEDI", "SKYWALKER" },
-                Friends = new[] { "Luke Skywalker", "Leia Organa", "R2-D2", "Rey" }
+                Episodes = new[] { "NEWHOPE", "EMPIRE", "JEDI" },
+                Friends = new[] { "Luke Skywalker", "Leia Organa", "R2-D2" }, 
+                Planet = "Whatever"
             };
             var requestContent = GetJsonContent(character);
             var requestUri = $@"/characters/{HttpUtility.UrlEncode("Han Solo")}";
@@ -164,7 +167,7 @@ namespace StarWarsApi.FunctionalTests.Controllers
         }
 
         [Fact]
-        public async Task DeleteCharacter_ShouldAddNewCharacter_GivenCharacterObject()
+        public async Task DeleteCharacter_ShouldRemoveCharacter_GivenCharacterName()
         {
             int charactersBefore = await GetCharactersCount();
             var name = "Wilhuff Tarkin";
@@ -188,7 +191,7 @@ namespace StarWarsApi.FunctionalTests.Controllers
         private async Task<IEnumerable<SwCharacter>> GetAllCharacters()
         {
             var result = new List<SwCharacter>();
-            IEnumerable<SwCharacter> page = null;
+            IEnumerable<SwCharacter> page;
             var pageNr = 1;
             do
             {

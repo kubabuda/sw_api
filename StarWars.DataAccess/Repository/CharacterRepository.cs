@@ -1,47 +1,46 @@
-﻿using StarWars.BusinessLogic.Interfaces.Repositories;
+﻿using AutoMapper;
+using StarWars.BusinessLogic.Interfaces.Repositories;
 using StarWars.BusinessLogic.Models;
-using System.Collections.Generic;
+using StarWars.DataAccess.Models;
 using System.Linq;
 
 namespace StarWars.DataAccess.Repository
 {
     public class CharacterRepository : ICharacterRepository
     {
-        private readonly static List<SwCharacter> s_characters = DefaultCharacters.Get();
         private readonly StarWarsDbContext _dbContext;
+        private readonly IMapper _mapper;
 
-        public CharacterRepository(StarWarsDbContext dbContext)
+        public CharacterRepository(StarWarsDbContext dbContext, IMapper mapper)
         {
             _dbContext = dbContext;
+            _mapper = mapper;
         }
 
         public IQueryable<SwCharacter> GetQueryable()
         {
-            return s_characters.AsQueryable();
+            return _mapper.ProjectTo<SwCharacter>(_dbContext.Characters);
         }
 
         public void Create(SwCharacter character)
         {
-            s_characters.Add(character);
+            var newEntity = _mapper.Map<Character>(character);
+            // TODO take care to add also episodes and friends
+            _dbContext.Characters.Add(newEntity); 
+            _dbContext.SaveChanges(); // TODO how about async API
         }
 
         public void Update(string name, SwCharacter character)
         {
             // handle not found..
-            s_characters[FindIndex(name)] = character;
+            //s_characters[FindIndex(name)] = character;
         }
 
         public void Delete(string name)
         {
-            s_characters.RemoveAt(FindIndex(name));
-        }
-
-        private int FindIndex(string name)
-        {
-            // TODO refactor using ORM
-            var characterToUpdate = s_characters.Where(c => c.Name == name).Single();
-            var indexOf = s_characters.IndexOf(characterToUpdate);
-            return indexOf;
+            var toRemove = _dbContext.Characters.Where(c => c.Name == name).Single();
+            _dbContext.Remove(toRemove);
+            _dbContext.SaveChanges();
         }
     }
 }
