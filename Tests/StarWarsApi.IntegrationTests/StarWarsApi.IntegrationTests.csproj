@@ -20,6 +20,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\StarWars.Api\StarWars.Api.csproj" />
     <ProjectReference Include="..\..\StarWars.BusinessLogic\StarWars.BusinessLogic.csproj" />
     <ProjectReference Include="..\..\StarWars.DataAccess\StarWars.DataAccess.csproj" />
   </ItemGroup>

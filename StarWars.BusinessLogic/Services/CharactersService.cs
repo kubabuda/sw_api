@@ -12,12 +12,15 @@ namespace StarWars.BusinessLogic.Services
     {
 		private readonly IStarWarsApiConfiguration _configuration;
 		private readonly ICharacterRepository _repository;
+        private readonly IValidateActionsService _validator;
 
 		public CharactersService(IStarWarsApiConfiguration configuration, 
-			ICharacterRepository repository)
+			ICharacterRepository repository, 
+            IValidateActionsService validator)
         {
 			_configuration = configuration;
             _repository = repository;
+            _validator = validator;
         }
 
         public void CreateCharacter(Character newCharacter)

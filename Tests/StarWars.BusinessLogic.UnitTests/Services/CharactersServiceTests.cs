@@ -5,6 +5,7 @@ using StarWars.BusinessLogic.Interfaces;
 using StarWars.BusinessLogic.Interfaces.Repositories;
 using StarWars.BusinessLogic.Models;
 using StarWars.BusinessLogic.Services;
+using StarWars.BusinessLogic.Services.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -18,6 +19,8 @@ namespace StarWars.BusinessLogic.UnitTests.Services
         private List<Character> _allCharacters;
         private IStarWarsApiConfiguration _configuration;
         private ICharacterRepository _repository;
+        private IValidateActionsService _validator;
+
         private CharactersService _serviceUnderTest;
 
         [SetUp]
@@ -37,8 +40,9 @@ namespace StarWars.BusinessLogic.UnitTests.Services
             };
             _repository = Substitute.For<ICharacterRepository>();
             _repository.GetQueryable().Returns(_allCharacters.AsQueryable());
-
-            _serviceUnderTest = new CharactersService(_configuration, _repository);
+            _validator = Substitute.For<IValidateActionsService>();
+            
+            _serviceUnderTest = new CharactersService(_configuration, _repository, _validator);
         }
 
         [TestCase(1, new[] { "0", "1" })]
@@ -109,6 +113,7 @@ namespace StarWars.BusinessLogic.UnitTests.Services
             // Arrange
             var character = new Character { Name = "0", Planet = "Mars" };
             var name = "0";
+            _validator.IsValidUpdate(name, character).Returns(true);
 
             // Act
             _serviceUnderTest.UpdateCharacter(name, character);
@@ -123,6 +128,7 @@ namespace StarWars.BusinessLogic.UnitTests.Services
             // Arrange
             var character = new Character { Name = "0", Planet = "Mars" };
             var name = "1";
+            _validator.IsValidUpdate(name, character).Returns(false);
 
             // Act
             Assert.Throws<InvalidOperationException>(() => _serviceUnderTest.UpdateCharacter(name, character));
