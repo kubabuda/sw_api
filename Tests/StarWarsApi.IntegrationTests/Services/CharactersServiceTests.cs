@@ -1,13 +1,9 @@
-﻿using FluentAssertions;
-using Microsoft.Data.Sqlite;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.Data.Sqlite;
 using NUnit.Framework;
 using StarWars.BusinessLogic.Services;
-using StarWars.DataAccess;
+using StarWarsApi.IntegrationTests.Infrastructure;
 using System;
 using System.Data.Common;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace StarWarsApi.IntegrationTests.Services
 {
@@ -18,38 +14,10 @@ namespace StarWarsApi.IntegrationTests.Services
 
         private readonly CharactersService _serviceUnderTests;
 
-        private static DbConnection CreateInMemoryDatabase()
+        [SetUp]
+        public void Setup()
         {
-            var connection = new SqliteConnection("Filename=:memory:");
-            connection.Open();
-
-            return connection;
-        }
-
-        [Test]
-        public async Task Pass()
-        {
-            // Arrange
-            _connection = CreateInMemoryDatabase();
-
-            var options = new DbContextOptionsBuilder<StarWarsDbContext>()
-                .UseSqlite(_connection)
-                .Options;
-
-            // act
-            var dbContext = new StarWarsDbContext(options);
-            await dbContext.Database.MigrateAsync();
-            await dbContext.SeedAsync();
-
-            // Assert
-            (await dbContext.Characters.CountAsync()).Should().Be(7);
-            var luke_skywalker = dbContext.Characters.Where(u => u.Id == 1).Single();
-
-            luke_skywalker.EpisodeCharacters.Select(e => e.Episode).Select(e => e.Name)
-                .Should().BeEquivalentTo(new[] { "NEWHOPE", "EMPIRE", "JEDI" });
-            luke_skywalker.Friends.Select(e => e.Friend).Select(e => e.Name)
-                .Should().BeEquivalentTo(new[] { "Han Solo", "Leia Organa", "C-3PO", "R2-D2" });
-
+            _connection = InMemoryDbConnectionFactory.CreateInMemoryDatabase();
         }
 
         public void Dispose()
