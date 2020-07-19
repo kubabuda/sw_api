@@ -4,8 +4,10 @@ using Microsoft.EntityFrameworkCore;
 using NUnit.Framework;
 using StarWars.BusinessLogic.Services;
 using StarWars.DataAccess;
+using StarWars.DataAccess.Models;
 using System;
 using System.Data.Common;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace StarWarsApi.IntegrationTests.Services
@@ -41,6 +43,9 @@ namespace StarWarsApi.IntegrationTests.Services
 
             // Assert
             (await dbContext.Characters.CountAsync()).Should().Be(7);
+            var luk = dbContext.Characters.Where(u => u.Id == 1).Single();
+            luk.Episodes.Select(e => e.Episode).Select(e => e.Name)
+                .Should().BeEquivalentTo(new[] { "NEWHOPE", "EMPIRE", "JEDI" });
         }
         public void Dispose()
         {

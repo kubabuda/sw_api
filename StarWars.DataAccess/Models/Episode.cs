@@ -2,11 +2,11 @@
 
 namespace StarWars.DataAccess.Models
 {
-    public class SwEpisode
+    public class Episode
     {
         public int Id { get; set; }
         public string Name { get; set; }
 
-        public virtual List<SwEpisodeCharacter> Characters { get; set; }
+        public virtual List<EpisodeCharacter> Characters { get; set; }
     }
 }
