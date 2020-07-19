@@ -77,13 +77,17 @@ For now API model == domain model == DB Entity. After demo it would be better to
 
 For now no authorization on this API is required for clients. This is obviously necessary to be added after demo.
 
-### Functional tests
+### ORM, DB, Functional tests
 
-For now, if db path is set to in-memory DB, 
+EF Core on SQlite are selected. For now, if db path is set to in-memory DB, API will spawn new in-memory DB and populate it with default values. 
+It works with functional tests, but mechanism for their isolation is needed.
 
 
 ## TODO list
 
+- tweak API model to match requested one
+
+### Nice to haves but no time left
 - [DB in container](https://www.c-sharpcorner.com/article/entity-framework-core-in-docker-container-part-ii-sqlite/)
 - [SpecFlow for functional tests](https://docs.specflow.org/projects/specflow/en/latest/Installation/Installation.html)
 - [Coverlet Collector](https://github.com/coverlet-coverage/coverlet)[ test coverage tool](https://docs.microsoft.com/en-us/dotnet/core/testing/unit-testing-code-coverage?tabs=windows)
