@@ -42,10 +42,11 @@ namespace StarWarsApi.IntegrationTests.Services
             dbContext.Database.EnsureCreated();
 
             // Assert
+            //var luk = dbContext.Characters.Where(u => u.Id == 1).Single();
+            //var yy = luk.Episodes.Select(e => e.Episode).ToArray();
+            //    //.Select(e => e.Name)
+            //    //.Should().BeEquivalentTo(new[] { "NEWHOPE", "EMPIRE", "JEDI" });
             (await dbContext.Characters.CountAsync()).Should().Be(7);
-            var luk = dbContext.Characters.Where(u => u.Id == 1).Single();
-            luk.Episodes.Select(e => e.Episode).Select(e => e.Name)
-                .Should().BeEquivalentTo(new[] { "NEWHOPE", "EMPIRE", "JEDI" });
         }
         public void Dispose()
         {

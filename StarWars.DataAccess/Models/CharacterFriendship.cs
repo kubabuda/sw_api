@@ -4,7 +4,7 @@
     {
         public int FriendId { get; set; }
         public int FriendOfId { get; set; }
-        public virtual Character Friend { get; set; }
-        public virtual Character FriendOf { get; set; }
+        public Character Friend { get; set; }
+        public Character FriendOf { get; set; }
     }
 }

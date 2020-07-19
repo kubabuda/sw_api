@@ -33,6 +33,8 @@ namespace StarWars.DataAccess
             ConfigureTables(modelBuilder);
 
             SeedData(modelBuilder);
+
+            base.OnModelCreating(modelBuilder);
         }
 
         private static void ConfigureTables(ModelBuilder modelBuilder)
@@ -51,20 +53,18 @@ namespace StarWars.DataAccess
                 c.Property(o => o.Name).IsRequired();
             });
 
-            modelBuilder.Entity<EpisodeCharacter>(ec =>
-            {
-                ec.HasKey(bc => new { bc.EpisodeId, bc.CharacterId });
-                
-                ec.HasOne(bc => bc.Episode)
-                    .WithMany(e => e.Characters)
-                    .HasForeignKey(bc => bc.EpisodeId)
-                    .IsRequired();
-                
-                ec.HasOne(bc => bc.SwCharacter)
-                    .WithMany(c => c.Episodes)
-                    .HasForeignKey(bc => bc.CharacterId)
-                    .IsRequired();
-            });
+            modelBuilder.Entity<EpisodeCharacter>()
+                .HasKey(bc => new { bc.EpisodeId, bc.CharacterId });
+
+            modelBuilder.Entity<EpisodeCharacter>()
+                .HasOne(bc => bc.Episode)
+                .WithMany(e => e.Characters)
+                .HasForeignKey(bc => bc.EpisodeId);
+
+            modelBuilder.Entity<EpisodeCharacter>()
+                .HasOne(bc => bc.Character)
+                .WithMany(c => c.Episodes)
+                .HasForeignKey(bc => bc.CharacterId);
 
             modelBuilder.Entity<CharacterFriendship>(f =>
             {
