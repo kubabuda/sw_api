@@ -4,9 +4,7 @@ using Microsoft.EntityFrameworkCore;
 using NUnit.Framework;
 using StarWars.BusinessLogic.Services;
 using StarWars.DataAccess;
-using StarWars.DataAccess.Models;
 using System;
-using System.Collections.Generic;
 using System.Data.Common;
 using System.Linq;
 using System.Threading.Tasks;
@@ -49,6 +47,9 @@ namespace StarWarsApi.IntegrationTests.Services
 
             luke_skywalker.EpisodeCharacters.Select(e => e.Episode).Select(e => e.Name)
                 .Should().BeEquivalentTo(new[] { "NEWHOPE", "EMPIRE", "JEDI" });
+            luke_skywalker.Friends.Select(e => e.Friend).Select(e => e.Name)
+                .Should().BeEquivalentTo(new[] { "Han Solo", "Leia Organa", "C-3PO", "R2-D2" });
+
         }
 
         public void Dispose()

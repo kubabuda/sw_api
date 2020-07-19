@@ -89,6 +89,7 @@ For now no authorization on this API is required for clients. This is obviously 
 - [SpecFlow for functional tests](https://docs.specflow.org/projects/specflow/en/latest/Installation/Installation.html)
 - [Coverlet Collector](https://github.com/coverlet-coverage/coverlet)[ test coverage tool](https://docs.microsoft.com/en-us/dotnet/core/testing/unit-testing-code-coverage?tabs=windows)
 - [make Travis use Docker](https://docs.travis-ci.com/user/docker/)
+
 ### To discuss with product owner
 - select authorization mechanizm, preferably OAuth2 identity SaaS like Auth0
 - why numeric key is not part of character model, and if could it be added to be used (instead of name as primary key)

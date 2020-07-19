@@ -33,6 +33,21 @@ namespace StarWars.DataAccess.Migrations
                     b.ToTable("Characters");
                 });
 
+            modelBuilder.Entity("StarWars.DataAccess.Models.CharacterFriendship", b =>
+                {
+                    b.Property<int>("FriendId")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<int>("FriendOfId")
+                        .HasColumnType("INTEGER");
+
+                    b.HasKey("FriendId", "FriendOfId");
+
+                    b.HasIndex("FriendOfId");
+
+                    b.ToTable("CharacterFriendship");
+                });
+
             modelBuilder.Entity("StarWars.DataAccess.Models.Episode", b =>
                 {
                     b.Property<int>("Id")
@@ -61,6 +76,21 @@ namespace StarWars.DataAccess.Migrations
                     b.HasIndex("CharacterId");
 
                     b.ToTable("EpisodeCharacter");
+                });
+
+            modelBuilder.Entity("StarWars.DataAccess.Models.CharacterFriendship", b =>
+                {
+                    b.HasOne("StarWars.DataAccess.Models.Character", "Friend")
+                        .WithMany("FriendsOf")
+                        .HasForeignKey("FriendId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("StarWars.DataAccess.Models.Character", "FriendOf")
+                        .WithMany("Friends")
+                        .HasForeignKey("FriendOfId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("StarWars.DataAccess.Models.EpisodeCharacter", b =>

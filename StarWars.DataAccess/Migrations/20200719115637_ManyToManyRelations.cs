@@ -34,6 +34,30 @@ namespace StarWars.DataAccess.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "CharacterFriendship",
+                columns: table => new
+                {
+                    FriendId = table.Column<int>(nullable: false),
+                    FriendOfId = table.Column<int>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_CharacterFriendship", x => new { x.FriendId, x.FriendOfId });
+                    table.ForeignKey(
+                        name: "FK_CharacterFriendship_Characters_FriendId",
+                        column: x => x.FriendId,
+                        principalTable: "Characters",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_CharacterFriendship_Characters_FriendOfId",
+                        column: x => x.FriendOfId,
+                        principalTable: "Characters",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "EpisodeCharacter",
                 columns: table => new
                 {
@@ -58,6 +82,11 @@ namespace StarWars.DataAccess.Migrations
                 });
 
             migrationBuilder.CreateIndex(
+                name: "IX_CharacterFriendship_FriendOfId",
+                table: "CharacterFriendship",
+                column: "FriendOfId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_EpisodeCharacter_CharacterId",
                 table: "EpisodeCharacter",
                 column: "CharacterId");
@@ -65,6 +94,9 @@ namespace StarWars.DataAccess.Migrations
 
         protected override void Down(MigrationBuilder migrationBuilder)
         {
+            migrationBuilder.DropTable(
+                name: "CharacterFriendship");
+
             migrationBuilder.DropTable(
                 name: "EpisodeCharacter");
 

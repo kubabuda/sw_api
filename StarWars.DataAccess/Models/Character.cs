@@ -9,7 +9,7 @@ namespace StarWars.DataAccess.Models
         public string Planet { get; set; }
         
         public List<EpisodeCharacter> EpisodeCharacters { get; set; }
-        //public List<CharacterFriendship> Friends { get; set; }
-        //public List<CharacterFriendship> FriendsOf { get; set; }
+        public List<CharacterFriendship> Friends { get; set; }
+        public List<CharacterFriendship> FriendsOf { get; set; }
     }
 }

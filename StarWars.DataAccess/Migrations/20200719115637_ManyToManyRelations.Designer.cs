@@ -8,7 +8,7 @@ using StarWars.DataAccess;
 namespace StarWars.DataAccess.Migrations
 {
     [DbContext(typeof(StarWarsDbContext))]
-    [Migration("20200719105906_ManyToManyRelations")]
+    [Migration("20200719115637_ManyToManyRelations")]
     partial class ManyToManyRelations
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -33,6 +33,21 @@ namespace StarWars.DataAccess.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Characters");
+                });
+
+            modelBuilder.Entity("StarWars.DataAccess.Models.CharacterFriendship", b =>
+                {
+                    b.Property<int>("FriendId")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<int>("FriendOfId")
+                        .HasColumnType("INTEGER");
+
+                    b.HasKey("FriendId", "FriendOfId");
+
+                    b.HasIndex("FriendOfId");
+
+                    b.ToTable("CharacterFriendship");
                 });
 
             modelBuilder.Entity("StarWars.DataAccess.Models.Episode", b =>
@@ -63,6 +78,21 @@ namespace StarWars.DataAccess.Migrations
                     b.HasIndex("CharacterId");
 
                     b.ToTable("EpisodeCharacter");
+                });
+
+            modelBuilder.Entity("StarWars.DataAccess.Models.CharacterFriendship", b =>
+                {
+                    b.HasOne("StarWars.DataAccess.Models.Character", "Friend")
+                        .WithMany("FriendsOf")
+                        .HasForeignKey("FriendId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("StarWars.DataAccess.Models.Character", "FriendOf")
+                        .WithMany("Friends")
+                        .HasForeignKey("FriendOfId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("StarWars.DataAccess.Models.EpisodeCharacter", b =>
