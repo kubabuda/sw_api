@@ -25,15 +25,17 @@ namespace StarWars.DataAccess.Repository
         public void Create(SwCharacter character)
         {
             var newEntity = _mapper.Map<Character>(character);
+            _dbContext.Characters.Add(newEntity);
+            _dbContext.SaveChanges(); // we could switch to async API all the way up
             // TODO take care to add also episodes and friends
-            _dbContext.Characters.Add(newEntity); 
-            _dbContext.SaveChanges(); // TODO how about async API
         }
 
         public void Update(string name, SwCharacter character)
         {
-            // handle not found..
-            //s_characters[FindIndex(name)] = character;
+            var toUpdate = _dbContext.Characters.Where(u => u.Name == name).Single();
+            toUpdate.Planet = character.Planet;
+            _dbContext.Characters.Update(toUpdate);
+            _dbContext.SaveChanges(); // we could switch to async API all the way up
         }
 
         public void Delete(string name)

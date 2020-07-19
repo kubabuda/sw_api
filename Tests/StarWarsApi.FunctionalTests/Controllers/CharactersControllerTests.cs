@@ -21,7 +21,6 @@ namespace StarWarsApi.FunctionalTests.Controllers
             _client = factory.CreateClient();
         }
 
-
         [Fact]
         public async Task GetCharacters_ShouldReturnCharactersList_parameterless()
         {
@@ -38,7 +37,7 @@ namespace StarWarsApi.FunctionalTests.Controllers
         }
 
         [Fact]
-        public async Task GetCharacters_ShouldReturnNthPage_GivenPageNr()
+        public async Task GetCharacters_ShouldReturn2ndPage_GivenPageNr2()
         {
             // Arrange
             var totalSize = 7; 
@@ -141,7 +140,7 @@ namespace StarWarsApi.FunctionalTests.Controllers
             verificationResponse.Name.Should().Be(character.Name);
             verificationResponse.Episodes.Should().BeEquivalentTo(character.Episodes);
             verificationResponse.Friends.Should().BeEquivalentTo(character.Friends);
-            //verificationResponse.Planet.Should().Be(character.Planet);
+            verificationResponse.Planet.Should().Be(character.Planet);
         }
 
         [Fact]

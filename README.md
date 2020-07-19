@@ -77,14 +77,14 @@ For now API model == domain model == DB Entity. After demo it would be better to
 
 For now no authorization on this API is required for clients. This is obviously necessary to be added after demo.
 
-### Data accORM
+### Functional tests
 
+For now, if db path is set to in-memory DB, 
 
 
 ## TODO list
 
 - [DB in container](https://www.c-sharpcorner.com/article/entity-framework-core-in-docker-container-part-ii-sqlite/)
-- example integration tests
 - [SpecFlow for functional tests](https://docs.specflow.org/projects/specflow/en/latest/Installation/Installation.html)
 - [Coverlet Collector](https://github.com/coverlet-coverage/coverlet)[ test coverage tool](https://docs.microsoft.com/en-us/dotnet/core/testing/unit-testing-code-coverage?tabs=windows)
 - [make Travis use Docker](https://docs.travis-ci.com/user/docker/)

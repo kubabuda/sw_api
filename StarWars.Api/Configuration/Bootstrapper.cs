@@ -30,7 +30,7 @@ namespace StarWars.Api.Configuration
             return services;
         }
 
-        // TODO move to proper projec
+        // TODO move to proper project
         public static void BootstrapDataAccess(IServiceCollection services, ApiConfiguration appConfiguration)
         {
             services.AddScoped<ICharacterRepository, CharacterRepository>();
