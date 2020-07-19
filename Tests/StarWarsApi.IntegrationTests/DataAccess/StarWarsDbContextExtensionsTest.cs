@@ -17,7 +17,7 @@ namespace StarWarsApi.IntegrationTests.DataAccess
         [SetUp]
         public void Setup()
         {
-            _connection = InMemoryDbConnectionFactory.CreateInMemoryDatabase();
+            _connection = InMemoryDbConnectionFactory.CreateInMemoryDbConnection();
         }
 
         [Test]
