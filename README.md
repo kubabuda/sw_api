@@ -83,7 +83,6 @@ For now no authorization on this API is required for clients. This is obviously 
 
 ## TODO list
 
-- database (SQLite) + ORM (EF Core)
 - [DB in container](https://www.c-sharpcorner.com/article/entity-framework-core-in-docker-container-part-ii-sqlite/)
 - example integration tests
 - [SpecFlow for functional tests](https://docs.specflow.org/projects/specflow/en/latest/Installation/Installation.html)

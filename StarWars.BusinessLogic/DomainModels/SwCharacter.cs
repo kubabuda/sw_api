@@ -10,7 +10,7 @@ namespace StarWars.BusinessLogic.Models
         public string? Planet { get; set; }
     }
 
-    public static class DefaultCharacters
+    public static class DefaultCharacters // TODO remove
     {
 		public static List<SwCharacter> Get() => new List<SwCharacter>
 		{

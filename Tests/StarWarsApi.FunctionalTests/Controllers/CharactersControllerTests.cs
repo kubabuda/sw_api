@@ -1,7 +1,6 @@
 ﻿using FluentAssertions;
 using StarWars.Api;
 using StarWars.BusinessLogic.Models;
-using StarWars.DataAccess.Repository;
 using StarWarsApi.FunctionalTests.Infrastructure;
 using System.Collections.Generic;
 using System.Linq;
@@ -15,35 +14,51 @@ namespace StarWarsApi.FunctionalTests.Controllers
     public class CharactersControllerTests: ABaseFunctionalTest, IClassFixture<StarWarsApplicationFactory<Startup>>
     {
         private readonly HttpClient _client;
-        private readonly CharacterRepository _repo;
+        private readonly int _pageSize = 5; // as in configuration
 
         public CharactersControllerTests(StarWarsApplicationFactory<Startup> factory)
         {
             _client = factory.CreateClient();
-            _repo = new CharacterRepository();
         }
+
 
         [Fact]
         public async Task GetCharacters_ShouldReturnCharactersList_parameterless()
         {
             // Arrange - handled by application factory
-            var pageSize = 5; // as in configuration
 
             // Act
             var httpResponse = await _client.GetAsync($@"/characters");
 
             // Assert
             httpResponse.EnsureSuccessStatusCode();
-            var response = await UnpackResponse<IEnumerable<Character>>(httpResponse);
+            var response = await UnpackResponse<IEnumerable<SwCharacter>>(httpResponse);
             response.First().Name.Should().Be("Luke Skywalker");
-            response.Count().Should().Be(pageSize);
+            response.Count().Should().Be(_pageSize);
+        }
+
+        [Fact]
+        public async Task GetCharacters_ShouldReturnNthPage_GivenPageNr()
+        {
+            // Arrange
+            var totalSize = 7; 
+            var pageNr = 2;
+
+            // Act
+            var httpResponse = await _client.GetAsync($@"/characters?pageNr={pageNr}");
+
+            // Assert
+            httpResponse.EnsureSuccessStatusCode();
+            var response = await UnpackResponse<IEnumerable<SwCharacter>>(httpResponse);
+            response.First().Name.Should().Be("C-3PO");
+            response.Count().Should().Be(totalSize - _pageSize);
         }
 
         [Fact]
         public async Task GetCharater_ShouldGetCharacterByName_GivenValidName()
         {
             // Arrange
-            var character = new Character
+            var character = new SwCharacter
             {
                 Name = "Han Solo",
                 Episodes = new[] { "NEWHOPE", "EMPIRE", "JEDI" },
@@ -56,7 +71,7 @@ namespace StarWarsApi.FunctionalTests.Controllers
 
             // Assert
             httpResponse.EnsureSuccessStatusCode();
-            var response = await UnpackResponse<Character>(httpResponse);
+            var response = await UnpackResponse<SwCharacter>(httpResponse);
             response.Name.Should().Be(character.Name);
             response.Episodes.Should().BeEquivalentTo(character.Episodes);
             response.Friends.Should().BeEquivalentTo(character.Friends);
@@ -79,8 +94,8 @@ namespace StarWarsApi.FunctionalTests.Controllers
         public async Task PostCharater_ShouldAddNewCharacter_GivenCharacterObject()
         {
             // Arrange
-            var charactersBefore = _repo.GetQueryable().Count();
-            var newCharacter = new Character
+            var charactersBefore = await GetCharactersCount();
+            var newCharacter = new SwCharacter
             {
                 Name = "Rey",
                 Episodes = new[] { "FORCE_AWAKE", "LAST_JEDI", "SKYWALKER" },
@@ -93,16 +108,17 @@ namespace StarWarsApi.FunctionalTests.Controllers
 
             // Assert
             httpResponse.EnsureSuccessStatusCode();
-            _repo.GetQueryable().Count().Should().Be(charactersBefore + 1);
-            _repo.GetQueryable().Where(r => r.Name == newCharacter.Name).Count().Should().Be(1);
+            var charactersAfter = await GetAllCharacters();
+            charactersAfter.Count().Should().Be(charactersBefore + 1);
+            charactersAfter.Where(r => r.Name == newCharacter.Name).Count().Should().Be(1);
         }
 
         [Fact]
         public async Task PutCharater_ShouldUpdateCharacter_GivenNameAndCharacterObject()
         {
             // Arrange
-            var charactersBefore = _repo.GetQueryable().Count();
-            var character = new Character
+            var charactersBefore = await GetCharactersCount();
+            var character = new SwCharacter
             {
                 Name = "Luke Skywalker",
                 Episodes = new[] { "NEWHOPE", "EMPIRE", "JEDI", "FORCE_AWAKE", "LAST_JEDI", "SKYWALKER" },
@@ -118,8 +134,9 @@ namespace StarWarsApi.FunctionalTests.Controllers
 
             // Assert
             httpResponse.StatusCode.Should().Be(204);
-            _repo.GetQueryable().Count().Should().Be(charactersBefore);
-            var verificationResponse = await UnpackResponse<Character>(await _client.GetAsync(requestUri)); // kind of hacky solution
+            var charactersAfter = await GetAllCharacters();
+            charactersAfter.Count().Should().Be(charactersBefore);
+            var verificationResponse = await UnpackResponse<SwCharacter>(await _client.GetAsync(requestUri));
             verificationResponse.Name.Should().Be(character.Name);
             verificationResponse.Episodes.Should().BeEquivalentTo(character.Episodes);
             verificationResponse.Friends.Should().BeEquivalentTo(character.Friends);
@@ -129,7 +146,7 @@ namespace StarWarsApi.FunctionalTests.Controllers
         public async Task PutCharater_ShouldReturn400_GivenMismatchedNameAndCharacterObject()
         {
             // Arrange
-            var character = new Character
+            var character = new SwCharacter
             {
                 Name = "Luke Skywalker",
                 Episodes = new[] { "NEWHOPE", "EMPIRE", "JEDI", "FORCE_AWAKE", "LAST_JEDI", "SKYWALKER" },
@@ -149,8 +166,7 @@ namespace StarWarsApi.FunctionalTests.Controllers
         [Fact]
         public async Task DeleteCharacter_ShouldAddNewCharacter_GivenCharacterObject()
         {
-            // Arrange
-            var charactersBefore = _repo.GetQueryable().Count();
+            int charactersBefore = await GetCharactersCount();
             var name = "Wilhuff Tarkin";
 
             // Act
@@ -158,8 +174,32 @@ namespace StarWarsApi.FunctionalTests.Controllers
 
             // Assert
             httpResponse.EnsureSuccessStatusCode();
-            _repo.GetQueryable().Count().Should().Be(charactersBefore - 1);
-            _repo.GetQueryable().Where(r => r.Name == name).Count().Should().Be(0);
+            var charactersAfter = await GetAllCharacters();
+            charactersAfter.Where(r => r.Name == name).Count().Should().Be(0);
+            charactersAfter.Count().Should().Be(charactersBefore - 1);
+        }
+
+        private async Task<int> GetCharactersCount()
+        {
+            // Arrange
+            return (await GetAllCharacters()).Count();
+        }
+
+        private async Task<IEnumerable<SwCharacter>> GetAllCharacters()
+        {
+            var result = new List<SwCharacter>();
+            IEnumerable<SwCharacter> page = null;
+            var pageNr = 1;
+            do
+            {
+                var httpResponse = await _client.GetAsync($@"/characters?pageNr={pageNr++}");
+                httpResponse.EnsureSuccessStatusCode();
+                page = await UnpackResponse<IEnumerable<SwCharacter>>(httpResponse);
+                result.AddRange(page);
+            }
+            while (page.Count() == _pageSize);
+
+            return result;
         }
     }
 }

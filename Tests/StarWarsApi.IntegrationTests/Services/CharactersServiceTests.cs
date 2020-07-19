@@ -1,10 +1,10 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using FluentAssertions;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using NSubstitute;
 using NUnit.Framework;
 using StarWars.Api.Configuration;
-using StarWars.BusinessLogic.Services;
 using StarWars.BusinessLogic.Services.Interfaces;
 using StarWars.DataAccess;
 using StarWarsApi.IntegrationTests.Infrastructure;
@@ -27,7 +27,10 @@ namespace StarWarsApi.IntegrationTests.Services
             _connection = InMemoryDbConnectionFactory.CreateInMemoryDbConnection();
             await PrepareTestDbContext(_connection);
             IConfiguration configuration = Substitute.For<IConfiguration>();
+            configuration["PageSize"].Returns("5");
+            configuration["DatabasePath"].Returns("Filename=:memory:");
             var services = new ServiceCollection();
+            services.AddSingleton<IConfiguration>(configuration);
             services.Bootstrap(configuration);
             // overwrites
             services.AddDbContext<StarWarsDbContext>(options =>
@@ -37,6 +40,21 @@ namespace StarWarsApi.IntegrationTests.Services
             _serviceUnderTests = provider.GetRequiredService<ICharactersService>();
         }
 
+        [TestCase(1, new[] { "Luke Skywalker", "Darth Vader", "Han Solo", "Leia Organa", "Wilhuff Tarkin" })]
+        [TestCase(2, new[] { "C-3PO", "R2-D2" })]
+        public async Task GetCharacters_ShouldReturnNthPage_GivenPageNr(int pageNr, string[] names)
+        {
+            // Act
+            // Act
+            var result = _serviceUnderTests.GetCharacters(pageNr);
+
+            // Assert
+            int i = 0;
+            foreach (var character in result)
+            {
+                character.Name.Should().Be(names[i++]);
+            }
+        }
 
         public async Task PrepareTestDbContext(DbConnection connection)
         {
