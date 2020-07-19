@@ -7,6 +7,6 @@ namespace StarWars.DataAccess.Models
         public int Id { get; set; }
         public string Name { get; set; }
 
-        public List<EpisodeCharacter> Characters { get; set; }
+        public List<EpisodeCharacter> EpisodeCharacters { get; set; }
     }
 }

@@ -1,6 +1,8 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Design;
 using StarWars.DataAccess.Models;
+using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace StarWars.DataAccess
 {
@@ -19,9 +21,7 @@ namespace StarWars.DataAccess
     {
         public DbSet<Episode> Episodes { get; set; }
         public DbSet<Character> Characters { get; set; }
-        public DbSet<EpisodeCharacter> EpisodeCharacters { get; set; }
-        public DbSet<CharacterFriendship> CharacterFriendships { get; set; }
-
+        
         public StarWarsDbContext(DbContextOptions<StarWarsDbContext> options)
             : base(options)
         {
@@ -31,8 +31,6 @@ namespace StarWars.DataAccess
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             ConfigureTables(modelBuilder);
-
-            SeedData(modelBuilder);
 
             base.OnModelCreating(modelBuilder);
         }
@@ -49,7 +47,7 @@ namespace StarWars.DataAccess
             modelBuilder.Entity<Character>(c =>
             {
                 c.HasKey(o => o.Id);
-                c.Property(o => o.Id).IsRequired().ValueGeneratedOnAdd();
+                c.Property(o => o.Id).IsRequired();
                 c.Property(o => o.Name).IsRequired();
             });
 
@@ -58,37 +56,35 @@ namespace StarWars.DataAccess
 
             modelBuilder.Entity<EpisodeCharacter>()
                 .HasOne(bc => bc.Episode)
-                .WithMany(e => e.Characters)
+                .WithMany(e => e.EpisodeCharacters)
                 .HasForeignKey(bc => bc.EpisodeId);
 
             modelBuilder.Entity<EpisodeCharacter>()
                 .HasOne(bc => bc.Character)
-                .WithMany(c => c.Episodes)
+                .WithMany(c => c.EpisodeCharacters)
                 .HasForeignKey(bc => bc.CharacterId);
 
-            modelBuilder.Entity<CharacterFriendship>(f =>
-            {
-                f.HasKey(bc => new { bc.FriendId, bc.FriendOfId });
+            //modelBuilder.Entity<CharacterFriendship>(f =>
+            //{
+            //    f.HasKey(bc => new { bc.FriendId, bc.FriendOfId });
                 
-                f.HasOne(bc => bc.Friend)
-                    .WithMany(e => e.FriendsOf)
-                    .HasForeignKey(bc => bc.FriendId)
-                    .IsRequired();
+            //    f.HasOne(bc => bc.Friend)
+            //        .WithMany(e => e.FriendsOf)
+            //        .HasForeignKey(bc => bc.FriendId)
+            //        .IsRequired();
                 
-                f.HasOne(bc => bc.FriendOf)
-                    .WithMany(c => c.Friends)
-                    .HasForeignKey(bc => bc.FriendOfId)
-                    .IsRequired();
-            });
+            //    f.HasOne(bc => bc.FriendOf)
+            //        .WithMany(c => c.Friends)
+            //        .HasForeignKey(bc => bc.FriendOfId)
+            //        .IsRequired();
+            //});
         }
 
-        private static void SeedData(ModelBuilder modelBuilder)
+        public async Task SeedAsync() 
         {
             var newhope = new Episode { Id = 4, Name = "NEWHOPE" };
             var empire = new Episode { Id = 5, Name = "EMPIRE" };
             var jedi = new Episode { Id = 6, Name = "JEDI" };
-
-            modelBuilder.Entity<Episode>(ep => ep.HasData(newhope, empire, jedi));
 
             var luke_skywalker = new Character
             {
@@ -119,7 +115,7 @@ namespace StarWars.DataAccess
             var c_3p0 = new Character
             {
                 Id = 6,
-                Name = "C-3PO"                
+                Name = "C-3PO"
             };
             var r2_d2 = new Character
             {
@@ -127,54 +123,56 @@ namespace StarWars.DataAccess
                 Name = "R2-D2"
             };
 
-            modelBuilder.Entity<Character>(c => c.HasData(
-                new[] {
-                    luke_skywalker,
-                    darth_vader,
-                    han_solo,
-                    leia_organa,
-                    wilhuff_tarkin,
-                    c_3p0,
-                    r2_d2
-            }));
-
-            modelBuilder.Entity<EpisodeCharacter>(c => c.HasData(
+            luke_skywalker.EpisodeCharacters = new List<EpisodeCharacter> {
                 new EpisodeCharacter { EpisodeId = newhope.Id, CharacterId = luke_skywalker.Id },
                 new EpisodeCharacter { EpisodeId = empire.Id, CharacterId = luke_skywalker.Id },
-                new EpisodeCharacter { EpisodeId = jedi.Id, CharacterId = luke_skywalker.Id },
-                new EpisodeCharacter { EpisodeId = newhope.Id, CharacterId = darth_vader.Id },
+                new EpisodeCharacter { EpisodeId = jedi.Id, CharacterId = luke_skywalker.Id }
+            };
+
+            darth_vader.EpisodeCharacters = new List<EpisodeCharacter> {
+            new EpisodeCharacter { EpisodeId = newhope.Id, CharacterId = darth_vader.Id },
                 new EpisodeCharacter { EpisodeId = empire.Id, CharacterId = darth_vader.Id },
-                new EpisodeCharacter { EpisodeId = jedi.Id, CharacterId = darth_vader.Id },
+                new EpisodeCharacter { EpisodeId = jedi.Id, CharacterId = darth_vader.Id }
+            };
+
+            han_solo.EpisodeCharacters = new List<EpisodeCharacter> {
                 new EpisodeCharacter { EpisodeId = newhope.Id, CharacterId = han_solo.Id },
                 new EpisodeCharacter { EpisodeId = empire.Id, CharacterId = han_solo.Id },
-                new EpisodeCharacter { EpisodeId = jedi.Id, CharacterId = han_solo.Id },
+                new EpisodeCharacter { EpisodeId = jedi.Id, CharacterId = han_solo.Id }
+            };
+
+            leia_organa.EpisodeCharacters = new List<EpisodeCharacter> {
                 new EpisodeCharacter { EpisodeId = newhope.Id, CharacterId = leia_organa.Id },
                 new EpisodeCharacter { EpisodeId = empire.Id, CharacterId = leia_organa.Id },
-                new EpisodeCharacter { EpisodeId = jedi.Id, CharacterId = leia_organa.Id },
-                new EpisodeCharacter { EpisodeId = newhope.Id, CharacterId = wilhuff_tarkin.Id },
+                new EpisodeCharacter { EpisodeId = jedi.Id, CharacterId = leia_organa.Id }
+            };
+
+            wilhuff_tarkin.EpisodeCharacters = new List<EpisodeCharacter> {
+                new EpisodeCharacter { EpisodeId = newhope.Id, CharacterId = wilhuff_tarkin.Id }
+            };
+
+            c_3p0.EpisodeCharacters = new List<EpisodeCharacter> {
                 new EpisodeCharacter { EpisodeId = newhope.Id, CharacterId = c_3p0.Id },
                 new EpisodeCharacter { EpisodeId = empire.Id, CharacterId = c_3p0.Id },
-                new EpisodeCharacter { EpisodeId = jedi.Id, CharacterId = c_3p0.Id },
+                new EpisodeCharacter { EpisodeId = jedi.Id, CharacterId = c_3p0.Id }
+            };
+
+            r2_d2.EpisodeCharacters = new List<EpisodeCharacter> {
                 new EpisodeCharacter { EpisodeId = newhope.Id, CharacterId = r2_d2.Id },
                 new EpisodeCharacter { EpisodeId = empire.Id, CharacterId = r2_d2.Id },
                 new EpisodeCharacter { EpisodeId = jedi.Id, CharacterId = r2_d2.Id }
-            ));
+            };
 
-            //luke_skywalker.Friends = new[] { han_solo, leia_organa, c_3p0, r2_d2 };
-            //darth_vader.Friends = new[] { wilhuff_tarkin };
-            //han_solo.Friends = new[] { luke_skywalker, leia_organa, r2_d2 };
-            //leia_organa.Friends = new[] { luke_skywalker, han_solo, c_3p0, r2_d2 };
-            //wilhuff_tarkin.Friends = new[] { darth_vader };
-            //c_3p0.Friends = new[] { luke_skywalker, han_solo, leia_organa, r2_d2 };
-            //r2_d2.Friends = new[] { luke_skywalker, han_solo, leia_organa };
-
-            //luke_skywalker.Episodes = new[] { newHope, empire, jedi };
-            //darth_vader.Episodes = new[] { newHope, empire, jedi };
-            //han_solo.Episodes = new[] { newHope, empire, jedi };
-            //leia_organa.Episodes = new[] { newHope, empire, jedi };
-            //wilhuff_tarkin.Episodes = new[] { newHope };
-            //c_3p0.Episodes = new[] { newHope, empire, jedi };
-            //r2_d2.Episodes = new[] { newHope, empire, jedi }
+            await Episodes.AddRangeAsync(newhope, empire, jedi);
+            await Characters.AddRangeAsync(
+                luke_skywalker,
+                darth_vader,
+                han_solo,
+                leia_organa,
+                wilhuff_tarkin,
+                c_3p0,
+                r2_d2);
+            await SaveChangesAsync();
         }
     }
 }

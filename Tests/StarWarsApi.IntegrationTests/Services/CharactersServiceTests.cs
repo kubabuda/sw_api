@@ -6,6 +6,7 @@ using StarWars.BusinessLogic.Services;
 using StarWars.DataAccess;
 using StarWars.DataAccess.Models;
 using System;
+using System.Collections.Generic;
 using System.Data.Common;
 using System.Linq;
 using System.Threading.Tasks;
@@ -39,15 +40,17 @@ namespace StarWarsApi.IntegrationTests.Services
 
             // act
             var dbContext = new StarWarsDbContext(options);
-            dbContext.Database.EnsureCreated();
+            await dbContext.Database.MigrateAsync();
+            await dbContext.SeedAsync();
 
             // Assert
-            //var luk = dbContext.Characters.Where(u => u.Id == 1).Single();
-            //var yy = luk.Episodes.Select(e => e.Episode).ToArray();
-            //    //.Select(e => e.Name)
-            //    //.Should().BeEquivalentTo(new[] { "NEWHOPE", "EMPIRE", "JEDI" });
             (await dbContext.Characters.CountAsync()).Should().Be(7);
+            var luke_skywalker = dbContext.Characters.Where(u => u.Id == 1).Single();
+
+            luke_skywalker.EpisodeCharacters.Select(e => e.Episode).Select(e => e.Name)
+                .Should().BeEquivalentTo(new[] { "NEWHOPE", "EMPIRE", "JEDI" });
         }
+
         public void Dispose()
         {
             _connection.Dispose();
