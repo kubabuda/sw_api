@@ -1,10 +1,12 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
+using StarWars.Api.ApiModels;
 using StarWars.BusinessLogic.Models;
 using StarWars.BusinessLogic.Services.Interfaces;
 using Swashbuckle.AspNetCore.Annotations;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Web;
 
 namespace StarWars.Api.Controllers
@@ -25,11 +27,11 @@ namespace StarWars.Api.Controllers
 
 		[HttpGet]
         [SwaggerResponse(200, "The list of characters", typeof(IEnumerable<SwCharacter>))]
-        public IEnumerable<SwCharacter> GetAll([FromQuery] int pageNr = 1)
+        public CharacterResponse GetAll([FromQuery] int pageNr = 1)
 		{
             var characters = _charactersService.GetCharacters(pageNr);
 
-			return characters;
+			return new CharacterResponse { Characters = characters };
 		}
 
         [HttpGet("{key}")]

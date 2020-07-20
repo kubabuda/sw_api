@@ -197,7 +197,7 @@ namespace StarWarsApi.FunctionalTests.Controllers
             {
                 var httpResponse = await _client.GetAsync($@"/characters?pageNr={pageNr++}");
                 httpResponse.EnsureSuccessStatusCode();
-                page = await UnpackResponse<IEnumerable<SwCharacter>>(httpResponse);
+               page = (await UnpackResponse<CharacterResponse>(httpResponse)).Characters;
                 result.AddRange(page);
             }
             while (page.Count() == _pageSize);
