@@ -85,8 +85,6 @@ It works with functional tests, but mechanism for their isolation is needed.
 
 ## TODO list
 
-- tweak API model to match requested one
-
 ### Nice to haves but no time left
 - [DB in container](https://www.c-sharpcorner.com/article/entity-framework-core-in-docker-container-part-ii-sqlite/)
 - [SpecFlow for functional tests](https://docs.specflow.org/projects/specflow/en/latest/Installation/Installation.html)

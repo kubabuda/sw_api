@@ -4,7 +4,7 @@ using StarWars.BusinessLogic.Models;
 using StarWars.DataAccess.Models;
 using System.Linq;
 
-namespace StarWars.DataAccess.Repository
+namespace StarWars.DataAccess.Repositories
 {
     public class CharacterRepository : ICharacterRepository
     {
@@ -27,15 +27,16 @@ namespace StarWars.DataAccess.Repository
             var newEntity = _mapper.Map<Character>(character);
             _dbContext.Characters.Add(newEntity);
             _dbContext.SaveChanges(); // we could switch to async API all the way up
-            // TODO take care to add also episodes and friends
+            // TODO take care to add also episodes and friends, for demo this will have to do
         }
 
         public void Update(string name, SwCharacter character)
         {
             var toUpdate = _dbContext.Characters.Where(u => u.Name == name).Single();
             toUpdate.Planet = character.Planet;
+            // again take care to update relations after demo
             _dbContext.Characters.Update(toUpdate);
-            _dbContext.SaveChanges(); // we could switch to async API all the way up
+            _dbContext.SaveChanges();
         }
 
         public void Delete(string name)

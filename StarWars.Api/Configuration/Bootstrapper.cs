@@ -8,7 +8,7 @@ using StarWars.BusinessLogic.Services;
 using StarWars.BusinessLogic.Services.Interfaces;
 using StarWars.DataAccess;
 using StarWars.DataAccess.Infrastructure;
-using StarWars.DataAccess.Repository;
+using StarWars.DataAccess.Repositories;
 
 namespace StarWars.Api.Configuration
 {
