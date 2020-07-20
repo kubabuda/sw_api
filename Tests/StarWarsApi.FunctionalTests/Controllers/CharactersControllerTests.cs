@@ -1,5 +1,6 @@
 ﻿using FluentAssertions;
 using StarWars.Api;
+using StarWars.Api.ApiModels;
 using StarWars.BusinessLogic.Models;
 using StarWarsApi.FunctionalTests.Infrastructure;
 using System.Collections.Generic;
@@ -31,9 +32,9 @@ namespace StarWarsApi.FunctionalTests.Controllers
 
             // Assert
             httpResponse.EnsureSuccessStatusCode();
-            var response = await UnpackResponse<IEnumerable<SwCharacter>>(httpResponse);
-            response.First().Name.Should().Be("Luke Skywalker");
-            response.Count().Should().Be(_pageSize);
+            var response = await UnpackResponse<CharacterResponse>(httpResponse);
+            response.Characters.First().Name.Should().Be("Luke Skywalker");
+            response.Characters.Count().Should().Be(_pageSize);
         }
 
         [Fact]
@@ -48,9 +49,9 @@ namespace StarWarsApi.FunctionalTests.Controllers
 
             // Assert
             httpResponse.EnsureSuccessStatusCode();
-            var response = await UnpackResponse<IEnumerable<SwCharacter>>(httpResponse);
-            response.Count().Should().Be(totalSize - _pageSize);
-            var names = response.Select(r => r.Name).ToArray();
+            var response = await UnpackResponse<CharacterResponse>(httpResponse);
+            response.Characters.Count().Should().Be(totalSize - _pageSize);
+            var names = response.Characters.Select(r => r.Name).ToArray();
         }
 
         [Fact]
